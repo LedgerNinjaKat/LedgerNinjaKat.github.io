@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ledger Ninja | Finance x Automation x Quant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root {
+  --teal: #00ffd5;
+  --blue: #4facfe;
+  --purple: #b721ff;
+  --bg: #03070f;
+  --bg2: #060d1a;
+  --surface: rgba(255,255,255,0.035);
+  --border: rgba(255,255,255,0.07);
+  --text-dim: #8a96b0;
+  --text-mid: #bbc4d8;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: #e8edf5;
+  overflow-x: hidden;
+  line-height: 1.75;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+#cursor {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--teal);
+  position: fixed; top:0; left:0;
+  pointer-events: none; z-index: 9999;
+  transition: transform 0.15s ease, background 0.3s;
+  mix-blend-mode: screen;
+}
+#cursor-ring {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,255,213,0.5);
+  position: fixed; top:0; left:0;
+  pointer-events: none; z-index: 9998;
+  transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s, border-color 0.3s;
+}
+body:has(a:hover) #cursor-ring,
+body:has(button:hover) #cursor-ring {
+  width: 56px; height: 56px;
+  border-color: var(--teal);
+}
+
+/* ── ANIMATED BG LAYERS ── */
+.bg-orbs {
+  position: fixed; inset:0; z-index:-3; overflow:hidden;
+}
+.orb {
+  position: absolute; border-radius:50%; filter: blur(80px);
+  animation: orbFloat linear infinite;
+}
+.orb1 { width:600px;height:600px; top:-100px;left:-150px; background:radial-gradient(circle,rgba(0,255,213,0.07),transparent 70%); animation-duration:25s; }
+.orb2 { width:500px;height:500px; bottom:-80px;right:-100px; background:radial-gradient(circle,rgba(183,33,255,0.1),transparent 70%); animation-duration:30s; animation-direction:reverse; }
+.orb3 { width:400px;height:400px; top:40%;left:40%; background:radial-gradient(circle,rgba(79,172,254,0.07),transparent 70%); animation-duration:20s; }
+
+@keyframes orbFloat {
+  0%,100% { transform:translateY(0) scale(1); }
+  33% { transform:translateY(-40px) scale(1.05); }
+  66% { transform:translateY(30px) scale(0.97); }
+}
+
+/* GRID */
+.grid-bg {
+  position: fixed; inset:0; z-index:-2;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* NOISE */
+.noise {
+  position: fixed; inset:0; z-index:-1; opacity:0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; width:100%;
+  padding: 18px 7%;
+  display:flex; justify-content:space-between; align-items:center;
+  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(3,7,15,0.6);
+  border-bottom: 1px solid var(--border);
+  z-index:900;
+  transition: padding 0.4s ease;
+}
+nav.scrolled { padding: 12px 7%; }
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+.logo::after {
+  content:'';
+  position:absolute; bottom:-2px; left:0;
+  width:0; height:2px;
+  background: linear-gradient(90deg,var(--teal),var(--blue));
+  transition: width 0.4s ease;
+}
+.logo:hover::after { width:100%; }
+
+nav ul { display:flex; gap:32px; list-style:none; }
+nav a {
+  text-decoration:none; color:var(--text-dim);
+  font-family:'Space Mono',monospace; font-size:0.78rem;
+  letter-spacing:1px; text-transform:uppercase;
+  position:relative; transition:color 0.3s;
+}
+nav a::after {
+  content:''; position:absolute; bottom:-4px; left:0;
+  width:0; height:1px; background:var(--teal);
+  transition:width 0.3s ease;
+}
+nav a:hover { color:var(--teal); }
+nav a:hover::after { width:100%; }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 140px 7% 80px;
+  gap: 60px; position:relative;
+}
+
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:10px;
+  padding: 8px 18px;
+  background: rgba(0,255,213,0.06);
+  border: 1px solid rgba(0,255,213,0.2);
+  border-radius:999px;
+  font-family:'Space Mono',monospace;
+  font-size:0.75rem;
+  letter-spacing:2px;
+  color: var(--teal);
+  margin-bottom:28px;
+  animation: fadeSlideUp 0.8s ease both;
+}
+.hero-eyebrow .dot {
+  width:6px;height:6px;border-radius:50%;
+  background:var(--teal);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.4;transform:scale(0.7);}
+}
+
+.hero-text { flex:1; }
+
+.hero-text h1 {
+  font-family:'Syne',sans-serif;
+  font-size: clamp(3rem,5vw,5.5rem);
+  font-weight:800;
+  line-height:1.0;
+  letter-spacing:-1px;
+  margin-bottom:24px;
+  animation: fadeSlideUp 0.9s ease 0.1s both;
+}
+.hero-text h1 .grad {
+  background: linear-gradient(90deg, var(--teal), var(--blue), var(--purple));
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradShift 5s linear infinite;
+}
+@keyframes gradShift {
+  0%{background-position:0%}100%{background-position:200%}
+}
+
+/* ROTATING TEXT */
+.rotating-wrap {
+  height:44px; overflow:hidden; margin-bottom:24px;
+  animation: fadeSlideUp 0.9s ease 0.2s both;
+}
+.rotating-wrap span {
+  display:block; height:44px;
+  font-family:'Space Mono',monospace;
+  font-size:1.0rem; color:var(--teal);
+  animation: rotateWords 12s infinite;
+}
+@keyframes rotateWords {
+  0%,18%{transform:translateY(0)}
+  25%,43%{transform:translateY(-44px)}
+  50%,68%{transform:translateY(-88px)}
+  75%,93%{transform:translateY(-132px)}
+  100%{transform:translateY(0)}
+}
+
+.hero-text p {
+  max-width:600px; color:var(--text-mid);
+  font-size:1.05rem; margin-bottom:36px;
+  animation: fadeSlideUp 0.9s ease 0.3s both;
+}
+
+.hero-buttons {
+  display:flex; gap:16px; flex-wrap:wrap;
+  animation: fadeSlideUp 0.9s ease 0.4s both;
+}
+
+.btn {
+  padding:14px 26px; border-radius:12px;
+  text-decoration:none; font-weight:600;
+  font-family:'DM Sans',sans-serif;
+  display:inline-flex; align-items:center; gap:10px;
+  position:relative; overflow:hidden;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn::before {
+  content:''; position:absolute; inset:0;
+  background:rgba(255,255,255,0.1);
+  transform:translateX(-110%) skewX(-15deg);
+  transition:transform 0.4s ease;
+}
+.btn:hover::before { transform:translateX(110%) skewX(-15deg); }
+
+.btn-primary {
+  background: linear-gradient(90deg,var(--teal),var(--blue));
+  color:#03070f; font-weight:700;
+  box-shadow:0 0 30px rgba(0,255,213,0.25);
+}
+.btn-primary:hover {
+  transform:translateY(-4px);
+  box-shadow:0 0 50px rgba(0,255,213,0.45);
+}
+.btn-secondary {
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:#e8edf5;
+  backdrop-filter:blur(12px);
+}
+.btn-secondary:hover {
+  transform:translateY(-4px);
+  border-color:rgba(0,255,213,0.3);
+  box-shadow:0 0 20px rgba(0,255,213,0.1);
+}
+
+/* HERO VISUAL */
+.hero-visual {
+  flex:1; display:flex;
+  justify-content:center; align-items:center;
+  position:relative; animation: fadeSlideUp 1s ease 0.5s both;
+}
+.hero-visual::before {
+  content:'';
+  position:absolute; width:500px;height:500px;
+  background:radial-gradient(circle,rgba(0,255,213,0.08),transparent 70%);
+  border-radius:50%;
+  animation:pulse2 4s ease-in-out infinite;
+}
+@keyframes pulse2 {
+  0%,100%{transform:scale(1);opacity:0.8}
+  50%{transform:scale(1.1);opacity:0.4}
+}
+
+.glass-card {
+  width:100%; max-width:500px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:28px; padding:28px;
+  backdrop-filter:blur(20px);
+  position:relative; overflow:hidden;
+  box-shadow:0 0 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+  animation: float 7s ease-in-out infinite;
+}
+.glass-card::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(130deg,transparent 0%,rgba(255,255,255,0.06) 50%,transparent 100%);
+  transform:translateX(-100%);
+  animation:shine 6s 1s infinite;
+}
+@keyframes shine { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+.hero-gif {
+  width:100%; border-radius:18px; margin-bottom:20px;
+  box-shadow:0 4px 30px rgba(0,0,0,0.4);
+}
+
+.stat-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:14px;
+}
+.stat-box {
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  padding:18px; border-radius:16px;
+  text-align:center;
+  transition:0.35s ease;
+  position:relative; overflow:hidden;
+}
+.stat-box::after {
+  content:''; position:absolute;
+  inset:-1px; border-radius:16px;
+  background:linear-gradient(135deg,transparent,rgba(0,255,213,0.1),transparent);
+  opacity:0; transition:opacity 0.3s;
+}
+.stat-box:hover { transform:translateY(-6px); }
+.stat-box:hover::after { opacity:1; }
+.stat-box h3 {
+  font-family:'Syne',sans-serif;
+  font-size:1.9rem; font-weight:800;
+  background:linear-gradient(90deg,var(--teal),var(--blue));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.stat-box p { font-size:0.78rem; color:var(--text-dim); margin-top:4px; }
+
+@keyframes float {
+  0%,100%{transform:translateY(0) rotate(0.3deg)}
+  50%{transform:translateY(-16px) rotate(-0.3deg)}
+}
+
+/* ── SECTIONS ── */
+section { padding:110px 7%; }
+
+.section-label {
+  font-family:'Space Mono',monospace;
+  font-size:0.72rem; letter-spacing:3px;
+  text-transform:uppercase; color:var(--teal);
+  margin-bottom:12px;
+  display:flex; align-items:center; gap:12px;
+}
+.section-label::before {
+  content:''; width:30px; height:1px; background:var(--teal);
+}
+
+.section-title {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(1.9rem,3.5vw,3rem);
+  font-weight:800; margin-bottom:16px;
+  letter-spacing:-0.5px;
+}
+.section-sub {
+  color:var(--text-mid); max-width:760px; margin-bottom:60px;
+  font-size:1rem;
+}
+
+/* ── ABOUT CARDS ── */
+.card-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+
+.card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:22px; padding:30px;
+  position:relative; overflow:hidden;
+  backdrop-filter:blur(16px);
+  transition:transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s;
+}
+.card::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--teal),transparent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.5s ease;
+}
+.card:hover { transform:translateY(-10px); box-shadow:0 24px 60px rgba(0,0,0,0.4); border-color:rgba(0,255,213,0.15); }
+.card:hover::before { transform:scaleX(1); }
+
+.card-icon {
+  width:52px;height:52px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:14px;
+  background:rgba(0,255,213,0.08);
+  border:1px solid rgba(0,255,213,0.15);
+  margin-bottom:20px;
+}
+.card-icon i {
+  font-size:1.4rem;
+  background:linear-gradient(90deg,var(--teal),var(--blue));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.card h3 { font-family:'Syne',sans-serif; margin-bottom:12px; font-size:1.1rem; }
+.card p { color:var(--text-mid); font-size:0.93rem; }
+
+/* TECH STACK TAGS */
+.tech-stack { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+.tech-stack-item {
+  padding:5px 12px;
+  background:rgba(79,172,254,0.08);
+  border:1px solid rgba(79,172,254,0.2);
+  border-radius:999px;
+  font-size:0.78rem;
+  color:var(--blue);
+  font-family:'Space Mono',monospace;
+  transition:0.25s;
+}
+.tech-stack-item:hover {
+  background:rgba(79,172,254,0.18);
+  transform:translateY(-2px);
+}
+
+/* ── TIMELINE ── */
+.timeline { position:relative; padding-left:44px; }
+.timeline::before {
+  content:''; position:absolute;
+  left:12px; top:0; width:1px; height:100%;
+  background:linear-gradient(to bottom, var(--teal), rgba(0,255,213,0.1));
+}
+
+.timeline-item {
+  position:relative; margin-bottom:40px;
+  background:var(--surface);
+  padding:32px 32px 28px;
+  border-radius:22px;
+  border:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  transition:transform 0.4s ease, border-color 0.4s, box-shadow 0.4s;
+}
+.timeline-item:hover {
+  transform:translateX(10px);
+  border-color:rgba(0,255,213,0.15);
+  box-shadow:0 0 40px rgba(0,0,0,0.3);
+}
+.timeline-item::before {
+  content:''; position:absolute;
+  left:-40px; top:34px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--teal);
+  box-shadow:0 0 0 4px rgba(0,255,213,0.15), 0 0 20px var(--teal);
+  animation:dotPulse 3s ease infinite;
+}
+@keyframes dotPulse {
+  0%,100%{box-shadow:0 0 0 4px rgba(0,255,213,0.15),0 0 20px var(--teal)}
+  50%{box-shadow:0 0 0 8px rgba(0,255,213,0.05),0 0 35px var(--teal)}
+}
+.timeline-item h3 {
+  font-family:'Syne',sans-serif;
+  font-size:1.05rem; font-weight:700;
+  margin-bottom:12px; color:#e8edf5;
+}
+.timeline-item p { color:var(--text-mid); font-size:0.93rem; }
+.timeline-item ul { margin-top:20px; padding-left:20px; list-style:none; }
+.timeline-item li {
+  color:var(--text-mid); font-size:0.91rem;
+  margin-bottom:10px; padding-left:18px;
+  position:relative;
+}
+.timeline-item li::before {
+  content:'▸'; position:absolute; left:0;
+  color:var(--teal); font-size:0.75rem; top:2px;
+}
+
+/* ── SKILLS — TABBED REDESIGN ── */
+
+/* Tab nav row */
+.skill-tabs-nav {
+  display:flex; flex-wrap:wrap; gap:10px;
+  margin-bottom:36px;
+}
+.skill-tab-btn {
+  display:flex; align-items:center; gap:9px;
+  padding:10px 20px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  font-family:'Syne',sans-serif;
+  font-size:0.82rem; font-weight:700;
+  color:var(--text-dim);
+  cursor:pointer;
+  transition:all 0.3s ease;
+  position:relative; overflow:hidden;
+  white-space:nowrap;
+}
+.skill-tab-btn::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(0,255,213,0.08),rgba(79,172,254,0.06));
+  opacity:0; transition:opacity 0.3s;
+}
+.skill-tab-btn:hover { color:#e8edf5; border-color:rgba(255,255,255,0.14); }
+.skill-tab-btn:hover::before { opacity:1; }
+.skill-tab-btn.active {
+  color:#03070f;
+  border-color:transparent;
+  background:linear-gradient(90deg,var(--teal),var(--blue));
+  box-shadow:0 0 24px rgba(0,255,213,0.3);
+}
+.skill-tab-btn.active::before { display:none; }
+.skill-tab-btn .tab-icon { font-size:0.95rem; }
+.skill-tab-badge {
+  font-size:0.68rem;
+  padding:2px 7px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.15);
+  font-family:'Space Mono',monospace;
+  font-weight:400;
+}
+.skill-tab-btn.active .skill-tab-badge {
+  background:rgba(3,7,15,0.2);
+}
+
+/* Tab panels */
+.skill-panel {
+  display:none;
+  animation: panelIn 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+.skill-panel.active { display:block; }
+@keyframes panelIn {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* Domain rows inside a panel */
+.skill-domain {
+  display:grid;
+  grid-template-columns: 240px 1fr;
+  gap:0;
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:14px;
+  background:var(--surface);
+  transition:border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.skill-domain:hover {
+  border-color:rgba(0,255,213,0.18);
+  box-shadow:0 8px 36px rgba(0,0,0,0.35);
+}
+
+.skill-domain-label {
+  padding:22px 24px;
+  display:flex; flex-direction:column;
+  justify-content:center; gap:8px;
+  border-right:1px solid var(--border);
+  position:relative;
+  background:rgba(255,255,255,0.02);
+}
+.skill-domain-label::before {
+  content:''; position:absolute;
+  left:0; top:0; bottom:0; width:3px;
+  border-radius:0 2px 2px 0;
+}
+.skill-domain[data-accent="teal"] .skill-domain-label::before { background:var(--teal); }
+.skill-domain[data-accent="blue"] .skill-domain-label::before { background:var(--blue); }
+.skill-domain[data-accent="purple"] .skill-domain-label::before { background:var(--purple); }
+
+.skill-domain-icon {
+  font-size:1.2rem;
+  margin-bottom:4px;
+}
+.skill-domain[data-accent="teal"] .skill-domain-icon { color:var(--teal); }
+.skill-domain[data-accent="blue"] .skill-domain-icon { color:var(--blue); }
+.skill-domain[data-accent="purple"] .skill-domain-icon { color:var(--purple); }
+
+.skill-domain-name {
+  font-family:'Syne',sans-serif;
+  font-size:0.88rem; font-weight:700;
+  line-height:1.3;
+}
+.skill-domain[data-accent="teal"] .skill-domain-name { color:var(--teal); }
+.skill-domain[data-accent="blue"] .skill-domain-name { color:var(--blue); }
+.skill-domain[data-accent="purple"] .skill-domain-name { color:var(--purple); }
+
+.skill-domain-count {
+  font-family:'Space Mono',monospace;
+  font-size:0.68rem;
+  color:var(--text-dim);
+}
+
+.skill-tag-area {
+  padding:18px 22px;
+  display:flex; flex-wrap:wrap;
+  gap:8px; align-content:center;
+}
+
+/* The tags themselves */
+.skill-tag {
+  padding:5px 13px;
+  background:rgba(255,255,255,0.055);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:999px;
+  font-size:0.8rem;
+  transition:all 0.22s ease;
+  cursor:default;
+}
+.skill-domain[data-accent="teal"] .skill-tag:hover {
+  background:rgba(0,255,213,0.12);
+  border-color:rgba(0,255,213,0.35);
+  color:var(--teal); transform:translateY(-2px);
+}
+.skill-domain[data-accent="blue"] .skill-tag:hover {
+  background:rgba(79,172,254,0.12);
+  border-color:rgba(79,172,254,0.35);
+  color:var(--blue); transform:translateY(-2px);
+}
+.skill-domain[data-accent="purple"] .skill-tag:hover {
+  background:rgba(183,33,255,0.12);
+  border-color:rgba(183,33,255,0.35);
+  color:var(--purple); transform:translateY(-2px);
+}
+
+/* Stagger tag entrance when panel activates */
+.skill-panel.active .skill-tag {
+  animation: tagPop 0.35s ease both;
+}
+.skill-panel.active .skill-domain:nth-child(1) .skill-tag { animation-delay: calc(var(--i,0) * 30ms + 0ms); }
+.skill-panel.active .skill-domain:nth-child(2) .skill-tag { animation-delay: calc(var(--i,0) * 30ms + 60ms); }
+.skill-panel.active .skill-domain:nth-child(3) .skill-tag { animation-delay: calc(var(--i,0) * 30ms + 120ms); }
+.skill-panel.active .skill-domain:nth-child(4) .skill-tag { animation-delay: calc(var(--i,0) * 30ms + 180ms); }
+.skill-panel.active .skill-domain:nth-child(5) .skill-tag { animation-delay: calc(var(--i,0) * 30ms + 240ms); }
+
+@keyframes tagPop {
+  from { opacity:0; transform:scale(0.85); }
+  to   { opacity:1; transform:scale(1); }
+}
+
+@media(max-width:760px){
+  .skill-domain { grid-template-columns:1fr; }
+  .skill-domain-label { border-right:none; border-bottom:1px solid var(--border); }
+  .skill-tab-btn span:not(.skill-tab-badge):not(.tab-icon) { display:none; }
+}
+
+/* ── CONTACT ── */
+.contact { text-align:center; }
+.contact .section-label { justify-content:center; }
+.contact .section-label::before { display:none; }
+.contact .section-sub { margin:0 auto 48px; }
+
+.socials { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.socials a {
+  width:58px;height:58px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  font-size:1.25rem; color:#e8edf5;
+  text-decoration:none;
+  transition:0.35s ease;
+  position:relative; overflow:hidden;
+}
+.socials a::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,var(--teal),var(--blue));
+  opacity:0; transition:opacity 0.3s;
+}
+.socials a i { position:relative; z-index:1; transition:color 0.3s; }
+.socials a:hover { transform:translateY(-8px) scale(1.08); border-color:transparent; box-shadow:0 14px 40px rgba(0,255,213,0.25); }
+.socials a:hover::before { opacity:1; }
+.socials a:hover i { color:#03070f; }
+
+/* ── FOOTER ── */
+footer {
+  padding:32px; text-align:center;
+  color:var(--text-dim); font-size:0.85rem;
+  font-family:'Space Mono',monospace;
+  border-top:1px solid var(--border);
+  letter-spacing:1px;
+}
+footer span { color:var(--teal); }
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal {
+  opacity:0; transform:translateY(48px);
+  transition:opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.active { opacity:1; transform:translateY(0); }
+
+.reveal-delay-1 { transition-delay:0.1s; }
+.reveal-delay-2 { transition-delay:0.2s; }
+.reveal-delay-3 { transition-delay:0.3s; }
+
+/* STAGGER children inside active reveal parent */
+.reveal.active .card { animation: staggerIn 0.6s ease both; }
+.reveal.active .card:nth-child(1) { animation-delay:0.05s; }
+.reveal.active .card:nth-child(2) { animation-delay:0.15s; }
+.reveal.active .card:nth-child(3) { animation-delay:0.25s; }
+.reveal.active .card:nth-child(4) { animation-delay:0.35s; }
+.reveal.active .card:nth-child(5) { animation-delay:0.45s; }
+.reveal.active .card:nth-child(6) { animation-delay:0.55s; }
+.reveal.active .card:nth-child(n+7) { animation-delay:0.65s; }
+
+@keyframes staggerIn {
+  from { opacity:0; transform:translateY(24px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+.reveal.active .skill-box { animation: staggerIn 0.6s ease both; }
+.reveal.active .skill-box:nth-child(1){animation-delay:0.05s}
+.reveal.active .skill-box:nth-child(2){animation-delay:0.1s}
+.reveal.active .skill-box:nth-child(3){animation-delay:0.15s}
+.reveal.active .skill-box:nth-child(4){animation-delay:0.2s}
+.reveal.active .skill-box:nth-child(5){animation-delay:0.25s}
+.reveal.active .skill-box:nth-child(6){animation-delay:0.3s}
+.reveal.active .skill-box:nth-child(n+7){animation-delay:0.35s}
+
+.reveal.active .timeline-item { animation: staggerIn 0.7s ease both; }
+.reveal.active .timeline-item:nth-child(1){animation-delay:0.05s}
+.reveal.active .timeline-item:nth-child(2){animation-delay:0.2s}
+.reveal.active .timeline-item:nth-child(3){animation-delay:0.35s}
+.reveal.active .timeline-item:nth-child(4){animation-delay:0.5s}
+
+@keyframes fadeSlideUp {
+  from { opacity:0; transform:translateY(24px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ── SECTION DIVIDER ── */
+.divider {
+  width:100%; height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:0 7%;
+  width:86%;
+}
+
+/* ── HIGHLIGHTED SECTION ACCENT ── */
+#experience { position:relative; }
+#experience::before {
+  content:''; position:absolute;
+  left:0; top:0; width:3px; height:100%;
+  background:linear-gradient(to bottom,var(--teal),transparent);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:980px){
+  .hero { flex-direction:column; text-align:center; padding-top:120px; }
+  .hero-buttons { justify-content:center; }
+  .hero-eyebrow { margin:0 auto 28px; }
+  nav ul { display:none; }
+  .hero-text p { margin:0 auto 36px; }
+  .rotating-wrap { margin:0 auto 24px; }
+}
+
+/* ── COUNTER ANIMATION ── */
+.count-up { display:inline-block; }
+
+/* ── PROJECTS SECTION specifically ── */
+#projects .card .card-icon { 
+  background:rgba(79,172,254,0.08);
+  border-color:rgba(79,172,254,0.2);
+}
+#projects .card:nth-child(even) .card-icon {
+  background:rgba(183,33,255,0.08);
+  border-color:rgba(183,33,255,0.2);
+}
+#projects .card:nth-child(even) .card-icon i {
+  background:linear-gradient(90deg,var(--purple),var(--blue));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+/* ── ABOUT section gradient accent cards ── */
+#about .card:nth-child(2) .card-icon {
+  background:rgba(183,33,255,0.08); border-color:rgba(183,33,255,0.15);
+}
+#about .card:nth-child(2) .card-icon i {
+  background:linear-gradient(90deg,var(--purple),var(--blue));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+#about .card:nth-child(3) .card-icon {
+  background:rgba(79,172,254,0.08); border-color:rgba(79,172,254,0.15);
+}
+#about .card:nth-child(3) .card-icon i {
+  background:linear-gradient(90deg,var(--blue),var(--teal));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+/* Loading screen */
+#loader {
+  position:fixed; inset:0; z-index:9999;
+  background:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:24px;
+  transition:opacity 0.8s ease, visibility 0.8s;
+}
+#loader.done { opacity:0; visibility:hidden; }
+.loader-logo {
+  font-family:'Syne',sans-serif;
+  font-size:2rem; font-weight:800; letter-spacing:4px;
+  background:linear-gradient(90deg,var(--teal),var(--blue),var(--purple));
+  background-size:200%;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  animation:gradShift 2s linear infinite;
+}
+.loader-bar-wrap {
+  width:200px; height:2px;
+  background:rgba(255,255,255,0.07);
+  border-radius:2px; overflow:hidden;
+}
+.loader-bar {
+  height:100%;
+  background:linear-gradient(90deg,var(--teal),var(--blue));
+  width:0; border-radius:2px;
+  animation:loadFill 1.2s ease forwards;
+}
+@keyframes loadFill { to { width:100%; } }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">LEDGER NINJA</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- BG LAYERS -->
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<div class="grid-bg"></div>
+<div class="noise"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="logo">LEDGER NINJA</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      FINANCE &bull; AUTOMATION &bull; QUANT &bull; DATA
+    </div>
+
+    <h1>Finance By Training.<br><span class="grad">Coder By Skill.</span></h1>
+
+    <div class="rotating-wrap">
+      <span>Quantitative Analyst</span>
+      <span>Automation Architect</span>
+      <span>Finance Transformation Lead</span>
+      <span>Python &amp; Data Enthusiast</span>
+    </div>
+
+    <p>CPA professional transitioning into the world of quantitative finance, data analytics, automation, and financial technology. Building systems that combine finance, code, analytics, and scalable operations.</p>
+
+    <div class="hero-buttons">
+      <a href="#projects" class="btn btn-primary">
+        <i class="fa-solid fa-chart-line"></i>
+        View Projects
+      </a>
+      <a href="#contact" class="btn btn-secondary">
+        <i class="fa-solid fa-paper-plane"></i>
+        Contact Me
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="glass-card">
+      <img class="hero-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDg2eWhwbjB3c3pkZnFodmR5eTRsMnpod2Q2Ym5vMjlmZTRsOW5teiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l0HlNaQ6gWfllcjDO/giphy.gif" alt="Finance Automation">
+      <div class="stat-grid">
+        <div class="stat-box">
+          <h3 class="count-up" data-target="500">0</h3><span style="color:var(--teal);font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800">+</span>
+          <p>Transactions Automated</p>
+        </div>
+        <div class="stat-box">
+          <h3 class="count-up" data-target="70">0</h3><span style="color:var(--teal);font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800">%</span>
+          <p>Manual Work Reduced</p>
+        </div>
+        <div class="stat-box">
+          <h3 class="count-up" data-target="15">0</h3><span style="color:var(--teal);font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800">%</span>
+          <p>Cost Reduction</p>
+        </div>
+        <div class="stat-box">
+          <h3 style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;background:linear-gradient(90deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Global</h3>
+          <p>Finance Operations</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about" class="reveal">
+  <div class="section-label">01 / About</div>
+  <h2 class="section-title">🌍 Global Compliance Architecture<br><span style="background:linear-gradient(90deg,var(--teal),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Mastering Cross-Border Financial Reporting</span></h2>
+  <p class="section-sub">I combine finance, accounting, automation, analytics, and systems thinking into scalable business solutions. My background spans executive finance leadership, global operations, process automation, financial systems architecture, and modern data tooling — bridging IFRS, US GAAP, UK GAAP, and Canadian GAAP through automated, auditable systems.</p>
+
+  <!-- Core Pillars (Merged from index14_v3) -->
+  <div style="margin-bottom:56px;">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+        <h3>Automation &amp; Systems</h3>
+        <p>Built automation systems using Excel VBA, Python, ClickUp, and workflow integrations to eliminate repetitive manual processes and improve operational efficiency.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-chart-simple"></i></div>
+        <h3>Quant &amp; Analytics</h3>
+        <p>Transitioning deeper into quantitative analysis and algorithmic trading through Python, SQL, Pandas, statistics, machine learning, and financial modeling.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-globe"></i></div>
+        <h3>Global Finance</h3>
+        <p>Led multi-currency finance operations, reconciliations, reporting systems, governance frameworks, and scalable financial processes across international teams.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHILOSOPHY -->
+  <div style="max-width:900px;margin-bottom:56px;">
+    <div class="card" style="padding:36px;">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+        <span style="font-size:1.3rem;">✨</span>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin:0;">My Philosophy: Beyond Rules, Towards Systems</h3>
+      </div>
+      <p style="color:var(--text-mid);font-size:0.95rem;line-height:1.85;margin-bottom:14px;">My expertise is not limited by geographical borders. I approach international accounting standards — be it IFRS, US GAAP, UK GAAP, or Canadian GAAP — not as disconnected rulebooks, but as distinct, yet navigable, compliance layers. 🏗️</p>
+      <p style="color:var(--text-mid);font-size:0.95rem;line-height:1.85;margin-bottom:14px;">I do not just know the rules; I build the scaffolding to reconcile them. My unique strength lies at the intersection of deep financial governance knowledge and advanced analytical technology. This means I don't just provide compliance reports; I provide scalable, auditable, and automated compliance architectures for multinational entities.</p>
+    </div>
+  </div>
+
+  <!-- CHALLENGE / SOLUTION -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:24px;margin-bottom:56px;">
+    <div class="card" style="padding:32px;position:relative;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span style="font-size:1.3rem;">🚦</span>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin:0;">The Challenge: Navigating Global Divergence</h3>
+      </div>
+      <p style="color:var(--text-mid);font-size:0.93rem;line-height:1.8;margin-bottom:14px;">Multi-national corporations face a critical challenge: ensuring their financial records are compliant not only with fundamental principles (like IFRS) but also with the hyper-specific, localized requirements of their operating jurisdictions.</p>
+      <div style="padding:14px 18px;background:rgba(255,80,80,0.06);border-left:3px solid rgba(255,80,80,0.4);border-radius:0 10px 10px 0;margin-top:10px;">
+        <strong style="color:#ff6b6b;font-family:'Syne',sans-serif;font-size:0.82rem;">The Gap</strong>
+        <span style="color:var(--text-mid);font-size:0.88rem;">The difference between a principles-based standard (IFRS) and a highly prescriptive, rules-based standard (US GAAP) can require intricate, non-obvious adjustments — in lease accounting, revenue recognition, or inventory valuation.</span>
+      </div>
+      <div style="padding:14px 18px;background:rgba(255,160,60,0.06);border-left:3px solid rgba(255,160,60,0.4);border-radius:0 10px 10px 0;margin-top:10px;">
+        <strong style="color:#ffa03c;font-family:'Syne',sans-serif;font-size:0.82rem;">The Risk</strong>
+        <span style="color:var(--text-mid);font-size:0.88rem;">Manual reconciliation of these divergences is slow, prone to error, and lacks the necessary audit trail for large-scale transformations.</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:32px;position:relative;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span style="font-size:1.3rem;">🛠️</span>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin:0;">The Solution: Integrated Compliance Engine</h3>
+      </div>
+      <p style="color:var(--text-mid);font-size:0.93rem;line-height:1.8;margin-bottom:14px;">I leverage my proficiency in Python, Pandas, and Power BI DAX to transform complex accounting theory into robust, systematic data models. 💻📊</p>
+      <p style="color:var(--text-mid);font-size:0.93rem;line-height:1.8;margin-bottom:14px;">Instead of relying solely on historical manual adjustments, I build a <strong style="color:var(--teal);">Comparative Reconciliation Engine</strong> that automatically:</p>
+      <ul style="color:var(--text-mid);font-size:0.91rem;line-height:2;padding-left:0;list-style:none;">
+        <li style="padding-left:20px;position:relative;">▸ Ingests the base IFRS-compliant ledger (AU/Global)</li>
+        <li style="padding-left:20px;position:relative;">▸ Identifies every single point of jurisdictional divergence</li>
+        <li style="padding-left:20px;position:relative;">▸ Applies localized accounting rules as programmatic logic</li>
+        <li style="padding-left:20px;position:relative;">▸ Outputs fully reconciled, auditable financial statements</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- JURISDICTIONAL MASTERY -->
+  <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:12px;">
+    <span>🗺️</span> Jurisdictional Mastery: A Comparative View
+  </h3>
+  <p class="section-sub" style="margin-bottom:32px;">I view each market through a strategic lens, allowing me to quickly pinpoint the critical divergence points.</p>
+
+  <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+    <!-- AUSTRALIA -->
+    <div class="card" style="padding:28px;">
+      <div style="font-size:1.6rem;margin-bottom:12px;">🇦🇺</div>
+      <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--teal);">Australian (AASB / IFRS)</h4>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">FOUNDATION</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Robust IFRS adoption and local AASB requirements.</p></div>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">FOCUS</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Strong principles-based framework with local modifications.</p></div>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">MY SKILL</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Deep foundational knowledge providing a stable starting point for conversion.</p></div>
+      <div><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">KEY PROCESS</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Month-end accruals, audit coordination, and advanced financial modeling. 📈</p></div>
+    </div>
+
+    <!-- UNITED STATES -->
+    <div class="card" style="padding:28px;">
+      <div style="font-size:1.6rem;margin-bottom:12px;">🇺🇸</div>
+      <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--blue);">United States (US GAAP)</h4>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">FOUNDATION</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Highly rules-based and prescriptive framework.</p></div>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">FOCUS</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Detailed, industry-specific rules with bright-line thresholds.</p></div>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">MY SKILL</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Mastering specific GAAP nuances (e.g., debt classification, inventory valuation) via model logic.</p></div>
+      <div><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">KEY PROCESS</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Deep dive into specific computational logic for compliance adjustments. ⚙️</p></div>
+    </div>
+
+    <!-- UNITED KINGDOM -->
+    <div class="card" style="padding:28px;">
+      <div style="font-size:1.6rem;margin-bottom:12px;">🇬🇧</div>
+      <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--purple);">United Kingdom (UK GAAP)</h4>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">FOUNDATION</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Strong IFRS influence with unique local statutory filings.</p></div>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">FOCUS</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Hybrid framework bridging international standards and local compliance.</p></div>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">MY SKILL</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Interpreting local statutory filing requirements alongside international standards.</p></div>
+      <div><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">KEY PROCESS</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Mapping corporate reporting standards to the local regulatory framework. 📄</p></div>
+    </div>
+
+    <!-- CANADA -->
+    <div class="card" style="padding:28px;">
+      <div style="font-size:1.6rem;margin-bottom:12px;">🇨🇦</div>
+      <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:14px;background:linear-gradient(90deg,var(--teal),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Canada (ASPE / IFRS)</h4>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">FOUNDATION</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Excellent bridge between IFRS and localized operational requirements.</p></div>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">FOCUS</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Dual framework: IFRS for public entities, ASPE for private entities.</p></div>
+      <div style="margin-bottom:10px;"><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">MY SKILL</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Handling local statutory GAAP that dictates board/regulatory reporting.</p></div>
+      <div><strong style="color:var(--text-dim);font-family:'Space Mono',monospace;font-size:0.7rem;">KEY PROCESS</strong><p style="color:var(--text-mid);font-size:0.88rem;margin:4px 0 0;">Ensuring seamless transition and compliance with specific tax/statutory guidelines. ✅</p></div>
+    </div>
+  </div>
+
+  <!-- PROCESS TIMELINE -->
+  <div style="margin-top:64px;">
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:12px;">
+      <span>🔬</span> The Process: How I Deliver Flawless Compliance
+    </h3>
+    <p class="section-sub" style="margin-bottom:36px;">My methodology is highly systematic and risk-mitigating.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <h3>📋 Analysis &amp; Blueprint</h3>
+        <p>I start by mapping the specific GAAP/IFRS requirements against the company's operational structure. Every divergence point is identified and documented before any development begins.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>🧑‍💻 Modeling &amp; Development</h3>
+        <p>I build the automated reconciliation model (the "Engine"). This includes complex VBA/Python functions to handle the required calculations — discount rate adjustments, weighted average cost calculations, and jurisdiction-specific logic.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>🧪 Testing &amp; Validation</h3>
+        <p>I run stress-test scenarios across various segments (AP, AR, Treasury) to ensure the model holds up under extreme circumstances, edge cases, and high-volume transaction loads.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>📖 Implementation &amp; Audit</h3>
+        <p>I deliver the final, fully reconciled financial package, complete with a transparent and auditable reconciliation trail for every dollar of divergence — ready for external audit review.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="margin-top:64px;text-align:center;">
+    <div class="card" style="padding:40px;max-width:800px;margin:0 auto;text-align:center;">
+      <span style="font-size:1.5rem;margin-bottom:16px;display:block;">📞</span>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:14px;">Let's Build Your Global Compliance Architecture</h3>
+      <p style="color:var(--text-mid);font-size:0.95rem;line-height:1.8;margin-bottom:28px;max-width:600px;margin-left:auto;margin-right:auto;">If your organization requires reliable, scalable, and technologically advanced financial reporting that can navigate the complexity between multiple international standards, I am ready to build the solution.</p>
+      <p style="color:var(--teal);font-family:'Space Mono',monospace;font-size:0.88rem;margin-bottom:28px;font-style:italic;">Let's schedule a discussion to translate your most complex GAAP challenges into streamlined, automated financial models.</p>
+      <a href="#contact" class="btn btn-primary" style="font-size:0.92rem;">
+        <i class="fa-solid fa-calendar-check"></i>
+        Schedule a Discussion
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" class="reveal">
+  <div class="section-label">02 / Projects</div>
+  <h2 class="section-title">Featured Projects</h2>
+  <p class="section-sub">Major operational, automation, analytics, finance transformation, governance, and systems architecture initiatives.</p>
+
+  <div class="card-grid">
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
+      <h3>Global Payment Transformation</h3>
+      <p>Led Airwallex integration for real-time multi-currency operations across AUD, USD, and CAD environments.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Airwallex</span>
+        <span class="tech-stack-item">Xero</span>
+        <span class="tech-stack-item">Braintree</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-gears"></i></div>
+      <h3>Transaction Automation Engine</h3>
+      <p>Built automation workflows handling 500+ daily transactions using VBA and financial reconciliation systems.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Excel VBA</span>
+        <span class="tech-stack-item">Automation</span>
+        <span class="tech-stack-item">Finance Ops</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-chart-column"></i></div>
+      <h3>Revenue Reporting Framework</h3>
+      <p>Designed consolidated reporting architecture reducing multi-week reporting cycles into three days.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Financial Modeling</span>
+        <span class="tech-stack-item">Reporting</span>
+        <span class="tech-stack-item">Data Systems</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-coins"></i></div>
+      <h3>FX Pricing Analytics</h3>
+      <p>Developed quantitative pricing and FX models supporting executive pricing and treasury decisions.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Analytics</span>
+        <span class="tech-stack-item">FX Modeling</span>
+        <span class="tech-stack-item">Forecasting</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-diagram-project"></i></div>
+      <h3>Joint Venture Billing System</h3>
+      <p>Created sophisticated automated allocation engines for joint venture billing and segmented expense management.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Automation</span>
+        <span class="tech-stack-item">Financial Modeling</span>
+        <span class="tech-stack-item">VBA</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-list-check"></i></div>
+      <h3>Month-End Transparency System</h3>
+      <p>Built centralized finance workflow governance using ClickUp to streamline month-end close visibility.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">ClickUp</span>
+        <span class="tech-stack-item">Workflow Design</span>
+        <span class="tech-stack-item">Finance Operations</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-database"></i></div>
+      <h3>CRM Migration &amp; Governance Audit</h3>
+      <p>Directed migration from Intercom to HubSpot while auditing financial workflows and billing governance.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">HubSpot</span>
+        <span class="tech-stack-item">Xero</span>
+        <span class="tech-stack-item">Systems Audit</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-building-shield"></i></div>
+      <h3>Asset Lifecycle Architecture</h3>
+      <p>Introduced formalized asset management governance and compliance-ready fixed asset tracking systems.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Asset Governance</span>
+        <span class="tech-stack-item">Compliance</span>
+        <span class="tech-stack-item">Finance Controls</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-wallet"></i></div>
+      <h3>Cost Optimization Initiative</h3>
+      <p>Led enterprise-wide cost reduction initiatives achieving measurable operational savings and improved visibility.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Cost Analysis</span>
+        <span class="tech-stack-item">Vendor Management</span>
+        <span class="tech-stack-item">Optimization</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-network-wired"></i></div>
+      <h3>Finance Systems Architecture</h3>
+      <p>Designed foundational finance operational structures, controls, governance, and scalable technology frameworks.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Systems Design</span>
+        <span class="tech-stack-item">Governance</span>
+        <span class="tech-stack-item">Finance Infrastructure</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-user-gear"></i></div>
+      <h3>HR Workflow Digital Transformation</h3>
+      <p>Created scalable onboarding and offboarding architecture using workflow automation and digital governance.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">ClickUp</span>
+        <span class="tech-stack-item">HR Systems</span>
+        <span class="tech-stack-item">Workflow Automation</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+      <h3>Invoice Approval Automation</h3>
+      <p>Designed streamlined invoice approval routing systems with live links, attachments, and audit-ready workflows.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Invoice Systems</span>
+        <span class="tech-stack-item">Approvals</span>
+        <span class="tech-stack-item">Automation</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+      <h3>Centralized Invoice Tracking</h3>
+      <p>Developed centralized invoice indexing and tracking systems that became operational standards across teams.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Structured Logging</span>
+        <span class="tech-stack-item">Document Indexing</span>
+        <span class="tech-stack-item">Finance Ops</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="reveal">
+  <div class="section-label">03 / Experience</div>
+  <h2 class="section-title">Executive Experience &amp; Transformation Leadership</h2>
+  <p class="section-sub">Deep expertise spanning executive finance leadership, global operations, financial systems transformation, governance architecture, process automation, analytics, and scalable operational strategy.</p>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <h3>🌟 EXECUTIVE FINANCE CONSULTANT &amp; TRANSFORMATION LEAD</h3>
+      <p>Served as the primary finance governance and transformation pillar, spearheading global finance strategy, operational scaling, automation architecture, and executive-level financial decision support across multi-currency international environments.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Global Finance Leadership</span>
+        <span class="tech-stack-item">Multi-Currency Operations</span>
+        <span class="tech-stack-item">Strategic Planning</span>
+        <span class="tech-stack-item">Finance Transformation</span>
+      </div>
+      <ul>
+        <li>Architected scalable financial systems and controls that enabled hyper-growth while significantly reducing systemic risk. Directed the end-to-end integration of Xero, Airwallex, Braintree, Hubdoc, and operational workflow systems to create real-time financial visibility, FX oversight, and centralized reporting governance.</li>
+        <li>Led enterprise-wide process transformation initiatives across Accounts Payable, Accounts Receivable, Revenue Recognition, Reconciliations, and Month-End Close processes, producing a documented 70% reduction in manual effort, operational friction, and reporting delays.</li>
+        <li>Built sophisticated cash flow forecasting models, profitability analysis frameworks, pricing models, FX strategy analysis, and executive reporting structures that directly contributed to measurable profitability improvements and a 15% increase in overall margins.</li>
+        <li>Instituted rigorous internal controls, vendor governance standards, approval structures, compliance frameworks, and risk mitigation procedures across jurisdictions to reinforce operational resilience and audit readiness.</li>
+        <li>Directed global Accounts Payable operations, including invoice governance, reconciliations, vendor management, payment automation, working capital optimization, and approval architecture.</li>
+        <li>Oversaw strategic Accounts Receivable and revenue operations, implementing automated collections, credit control policies, revenue recognition accuracy frameworks, and cash flow acceleration strategies.</li>
+        <li>Led full-cycle finance operations involving General Ledger management, payroll oversight, statutory compliance, financial reporting, forecasting, budgeting, and executive financial planning.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <h3>⚙️ OPERATIONS &amp; EXECUTIVE STRATEGY PROGRAM MANAGER</h3>
+      <p>Acted as the operational coordination pillar between Finance, HR, Sales, Operations, and Executive Leadership teams, ensuring seamless execution of strategic initiatives, organizational alignment, and scalable operational design.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Executive Operations</span>
+        <span class="tech-stack-item">Cross-Functional Leadership</span>
+        <span class="tech-stack-item">Program Management</span>
+        <span class="tech-stack-item">Strategic Execution</span>
+      </div>
+      <ul>
+        <li>Served as the central communication and operational nexus supporting executive-level decision-making, project governance, and company-wide operational visibility.</li>
+        <li>Developed foundational operational blueprints for HR and Finance functions that strengthened department scalability, workflow continuity, governance consistency, and organizational structure.</li>
+        <li>Managed executive coordination functions involving documentation workflows, scheduling, operational reporting, project tracking, and cross-departmental execution management.</li>
+        <li>Identified operational bottlenecks and implemented streamlined efficiency models that improved execution speed, collaboration, and process transparency across teams.</li>
+        <li>Supported multi-functional strategic projects while ensuring milestone accountability, deadline alignment, and successful implementation execution.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <h3>🧠 SENIOR ACCOUNTANT — HIGH-GROWTH MULTI-JURISDICTION ENVIRONMENTS</h3>
+      <p>Delivered high-precision financial governance, scalable reporting infrastructure, audit readiness, and operational accounting leadership in fast-growing international organizations.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">Audit Readiness</span>
+        <span class="tech-stack-item">Financial Reporting</span>
+        <span class="tech-stack-item">Xero Architecture</span>
+        <span class="tech-stack-item">Internal Controls</span>
+      </div>
+      <ul>
+        <li>Directed full-cycle year-end close and external audit coordination while minimizing audit adjustments and ensuring regulatory compliance across international finance operations.</li>
+        <li>Redesigned the Xero Chart of Accounts and financial reporting structures to improve scalability, executive reporting alignment, and analytical visibility.</li>
+        <li>Developed and enforced robust internal controls, cash flow models, operational policies, and governance standards to mitigate financial risk and support scalable growth.</li>
+        <li>Implemented standardized banking, payroll, reimbursement, reconciliation, and intercompany transaction processes that enhanced operational consistency and audit integrity.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <h3>🌟 SPECIALIZED EXPERTISE SHOWCASE</h3>
+      <p>Specialized expertise spanning audit assurance, financial controls, compliance governance, accounting systems architecture, operational reporting, automation engineering, and scalable finance infrastructure.</p>
+      <div class="tech-stack">
+        <span class="tech-stack-item">IFRS Compliance</span>
+        <span class="tech-stack-item">Risk Management</span>
+        <span class="tech-stack-item">Financial Controls</span>
+        <span class="tech-stack-item">Operational Governance</span>
+      </div>
+      <ul>
+        <li>As an Audit Associate, conducted comprehensive financial statement audits across multiple industries while ensuring adherence to IFRS standards, internal control frameworks, and best-practice compliance methodologies.</li>
+        <li>Acted as a trusted advisor to stakeholders by identifying systemic control gaps, strengthening governance depth, and improving reporting effectiveness.</li>
+        <li>As a Bookkeeper and Financial Controls Specialist, managed end-to-end bookkeeping, financial reporting, operational accounting, and regulatory compliance for complex retail operations.</li>
+        <li>Implemented stronger reporting structures, internal controls, and process improvements that established reliable and audit-ready financial reporting foundations.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills" class="reveal">
+  <div class="section-label">04 / Skills</div>
+  <h2 class="section-title">Skills &amp; Technologies</h2>
+  <p class="section-sub">A comprehensive display of deep, specialized expertise across 16 core domains — grouped across 4 pillars.</p>
+
+  <!-- TAB BUTTONS -->
+  <div class="skill-tabs-nav" role="tablist">
+    <button class="skill-tab-btn active" data-tab="finance" role="tab">
+      <i class="fa-solid fa-landmark tab-icon"></i>
+      <span>Finance &amp; Accounting</span>
+      <span class="skill-tab-badge">6 domains</span>
+    </button>
+    <button class="skill-tab-btn" data-tab="tech" role="tab">
+      <i class="fa-solid fa-microchip tab-icon"></i>
+      <span>Tech &amp; Systems</span>
+      <span class="skill-tab-badge">5 domains</span>
+    </button>
+    <button class="skill-tab-btn" data-tab="ops" role="tab">
+      <i class="fa-solid fa-gears tab-icon"></i>
+      <span>Operations &amp; Strategy</span>
+      <span class="skill-tab-badge">3 domains</span>
+    </button>
+    <button class="skill-tab-btn" data-tab="people" role="tab">
+      <i class="fa-solid fa-people-group tab-icon"></i>
+      <span>Leadership &amp; Governance</span>
+      <span class="skill-tab-badge">2 domains</span>
+    </button>
+  </div>
+
+  <!-- ── PANEL 1: FINANCE & ACCOUNTING ── -->
+  <div class="skill-panel active" id="panel-finance">
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-chart-pie skill-domain-icon"></i>
+        <div class="skill-domain-name">Financial Management &amp; Control</div>
+        <div class="skill-domain-count">9 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Financial Control</span>
+        <span class="skill-tag">Budgeting &amp; Forecasting</span>
+        <span class="skill-tag">Cash Flow Management</span>
+        <span class="skill-tag">Profitability Analysis</span>
+        <span class="skill-tag">Cost Optimization</span>
+        <span class="skill-tag">Working Capital Optimization</span>
+        <span class="skill-tag">Strategic Financial Planning</span>
+        <span class="skill-tag">Financial Modeling &amp; Executive Decision Support</span>
+        <span class="skill-tag">Variance Analysis</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="blue">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-scale-balanced skill-domain-icon"></i>
+        <div class="skill-domain-name">Accounting Standards &amp; Compliance</div>
+        <div class="skill-domain-count">8 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">IFRS, GAAP &amp; AASB Governance</span>
+        <span class="skill-tag">Taxation &amp; Regulatory Compliance</span>
+        <span class="skill-tag">International Accounting Standards</span>
+        <span class="skill-tag">Ethical &amp; Professional Standards</span>
+        <span class="skill-tag">FATCA Knowledge</span>
+        <span class="skill-tag">Month-End Close &amp; Accruals</span>
+        <span class="skill-tag">Compliance Reporting</span>
+        <span class="skill-tag">Audit Coordination</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-file-invoice skill-domain-icon"></i>
+        <div class="skill-domain-name">Financial Reporting &amp; Analysis</div>
+        <div class="skill-domain-count">4 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Financial Reporting &amp; Analysis</span>
+        <span class="skill-tag">Management Reporting</span>
+        <span class="skill-tag">Performance Analytics</span>
+        <span class="skill-tag">Analytical Skills</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-shield-halved skill-domain-icon"></i>
+        <div class="skill-domain-name">Risk, Controls &amp; Audit</div>
+        <div class="skill-domain-count">6 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Risk Management</span>
+        <span class="skill-tag">Internal Controls &amp; Governance</span>
+        <span class="skill-tag">Policy Enforcement</span>
+        <span class="skill-tag">Revenue Recognition</span>
+        <span class="skill-tag">Audit Readiness, Scrutiny &amp; Inspection</span>
+        <span class="skill-tag">Credit Risk Assessment</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="blue">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-arrow-right-arrow-left skill-domain-icon"></i>
+        <div class="skill-domain-name">Accounts Payable (AP)</div>
+        <div class="skill-domain-count">7 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Full-Cycle AP Management</span>
+        <span class="skill-tag">Strategic Vendor Relations</span>
+        <span class="skill-tag">3-Way Matching</span>
+        <span class="skill-tag">Invoice Validation</span>
+        <span class="skill-tag">Disbursement Control</span>
+        <span class="skill-tag">Payment Scheduling</span>
+        <span class="skill-tag">Cash Flow Planning for AP</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-money-bill-trend-up skill-domain-icon"></i>
+        <div class="skill-domain-name">Accounts Receivable (AR)</div>
+        <div class="skill-domain-count">7 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">End-to-End AR Operations</span>
+        <span class="skill-tag">Credit Risk Assessment</span>
+        <span class="skill-tag">Collection Strategy</span>
+        <span class="skill-tag">Customer Reconciliation</span>
+        <span class="skill-tag">Dispute Resolution</span>
+        <span class="skill-tag">AR Aging Analysis</span>
+        <span class="skill-tag">DSO Performance Management</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PANEL 2: TECH & SYSTEMS ── -->
+  <div class="skill-panel" id="panel-tech">
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-server skill-domain-icon"></i>
+        <div class="skill-domain-name">ERP &amp; Financial Systems</div>
+        <div class="skill-domain-count">8 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">SAP</span>
+        <span class="skill-tag">Xero</span>
+        <span class="skill-tag">QuickBooks</span>
+        <span class="skill-tag">Airwallex</span>
+        <span class="skill-tag">Braintree</span>
+        <span class="skill-tag">NAB</span>
+        <span class="skill-tag">CommBank</span>
+        <span class="skill-tag">PinPayments</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="blue">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-users-gear skill-domain-icon"></i>
+        <div class="skill-domain-name">CRM &amp; Business Systems</div>
+        <div class="skill-domain-count">3 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">HubSpot</span>
+        <span class="skill-tag">Intercom</span>
+        <span class="skill-tag">Hubdoc</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-robot skill-domain-icon"></i>
+        <div class="skill-domain-name">Automation &amp; Systems Integration</div>
+        <div class="skill-domain-count">5 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Business Systems Implementation</span>
+        <span class="skill-tag">Automation &amp; Process Improvement</span>
+        <span class="skill-tag">System Integration</span>
+        <span class="skill-tag">ERP &amp; CRM Integration</span>
+        <span class="skill-tag">Automation Using Analytics</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-chart-bar skill-domain-icon"></i>
+        <div class="skill-domain-name">Analytics, BI &amp; Programming</div>
+        <div class="skill-domain-count">8 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Advanced Excel &amp; VBA</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">GitHub &amp; Git</span>
+        <span class="skill-tag">VSCode / PyCharm / Jupyter / Anaconda</span>
+        <span class="skill-tag">NumPy / Pandas / Matplotlib / Seaborn</span>
+        <span class="skill-tag">Power BI &amp; DAX</span>
+        <span class="skill-tag">SQL / Polars</span>
+        <span class="skill-tag">ChatGPT AI &amp; Claude AI</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="blue">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-brain skill-domain-icon"></i>
+        <div class="skill-domain-name">Data Science &amp; Analysis</div>
+        <div class="skill-domain-count">9 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Dimensionality Reduction &amp; PCA</span>
+        <span class="skill-tag">K-Means Clustering</span>
+        <span class="skill-tag">Support Vector Machine</span>
+        <span class="skill-tag">Random Forest / Decision Tree ML</span>
+        <span class="skill-tag">Confusion Matrix</span>
+        <span class="skill-tag">Logistic Regression / Linear Regression</span>
+        <span class="skill-tag">Standard Deviation / Hypothesis Testing</span>
+        <span class="skill-tag">Data Structures / Time Complexity</span>
+        <span class="skill-tag">Pointers in C / Arrays / Linked Lists</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PANEL 3: OPERATIONS & STRATEGY ── -->
+  <div class="skill-panel" id="panel-ops">
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-desktop skill-domain-icon"></i>
+        <div class="skill-domain-name">Software, Tools &amp; Technical</div>
+        <div class="skill-domain-count">10 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Microsoft 365</span>
+        <span class="skill-tag">Notion</span>
+        <span class="skill-tag">Monday</span>
+        <span class="skill-tag">ClickUp</span>
+        <span class="skill-tag">AutoHotkey</span>
+        <span class="skill-tag">Slack / Zoom</span>
+        <span class="skill-tag">Windows OS &amp; Servers</span>
+        <span class="skill-tag">Linux (Ubuntu, Mint, Raspbian, Debian)</span>
+        <span class="skill-tag">MacOS</span>
+        <span class="skill-tag">Google Workspace Admin</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-sitemap skill-domain-icon"></i>
+        <div class="skill-domain-name">Business Ops &amp; Strategy</div>
+        <div class="skill-domain-count">13 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Business Strategy Development</span>
+        <span class="skill-tag">Commercial Insights</span>
+        <span class="skill-tag">Strategic Business Partnering</span>
+        <span class="skill-tag">Business Systems Analysis</span>
+        <span class="skill-tag">Business Continuity Planning</span>
+        <span class="skill-tag">Incident &amp; Problem Management</span>
+        <span class="skill-tag">Operations Management &amp; Support</span>
+        <span class="skill-tag">Hardware, Software &amp; Asset Mgmt</span>
+        <span class="skill-tag">Int'l Finance &amp; Digital Finance</span>
+        <span class="skill-tag">Project Planning &amp; Change Mgmt</span>
+        <span class="skill-tag">Process Transformation Leadership</span>
+        <span class="skill-tag">Continuous Improvement</span>
+        <span class="skill-tag">Operational &amp; Financial Process Optimization</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="blue">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-arrow-trend-up skill-domain-icon"></i>
+        <div class="skill-domain-name">Markets &amp; Investment Knowledge</div>
+        <div class="skill-domain-count">3 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Stock Exchange Markets</span>
+        <span class="skill-tag">Equities Market</span>
+        <span class="skill-tag">Capital &amp; Securities Market</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PANEL 4: LEADERSHIP & GOVERNANCE ── -->
+  <div class="skill-panel" id="panel-people">
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-people-group skill-domain-icon"></i>
+        <div class="skill-domain-name">Leadership &amp; Stakeholder Management</div>
+        <div class="skill-domain-count">6 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Team Leadership &amp; People Management</span>
+        <span class="skill-tag">Cross-Functional Collaboration</span>
+        <span class="skill-tag">Board &amp; Investor Relations</span>
+        <span class="skill-tag">Client Service Management</span>
+        <span class="skill-tag">Stakeholder Management</span>
+        <span class="skill-tag">Client Relationship Management</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-clipboard-check skill-domain-icon"></i>
+        <div class="skill-domain-name">Compliance, Quality &amp; Governance</div>
+        <div class="skill-domain-count">5 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Compliance</span>
+        <span class="skill-tag">Quality Assurance</span>
+        <span class="skill-tag">Internal Control Governance</span>
+        <span class="skill-tag">Audit Readiness</span>
+        <span class="skill-tag">Strategic Vendor Management &amp; Reconciliation</span>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact reveal">
+  <div class="section-label">05 / Connect</div>
+  <h2 class="section-title">Let's Connect</h2>
+  <p class="section-sub">Interested in finance automation, analytics, quant research, or collaboration opportunities? Reach out anytime.</p>
+
+  <div class="socials">
+    <a href="https://bsky.app/profile/lednerninja.bsky.social" target="_blank"><i class="fa-brands fa-bluesky"></i></a>
+    <a href="https://www.instagram.com/lednerninja/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://x.com/LedgerninjaKat" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://www.tiktok.com/@ledger.ninja" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+    <a href="https://tawk.to/ledgerninja" target="_blank"><i class="fa-solid fa-comments"></i></a>
+    <a href="mailto:tickets@ledger-ninja.p.tawk.email"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 <span>Ledger Ninja</span> &bull; Built with Finance, Data &amp; Code.
+</footer>
+
+<script>
+// ── LOADER ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('done');
+  }, 1400);
+});
+
+// ── CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+function animCursor(){
+  cursor.style.transform = `translate(${mx-6}px,${my-6}px)`;
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.transform = `translate(${rx-18}px,${ry-18}px)`;
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// ── NAV SCROLL ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── REVEAL ON SCROLL ──
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+}, { threshold: 0.08 });
+reveals.forEach(el => obs.observe(el));
+
+// ── COUNT UP ──
+function countUp(el) {
+  const target = parseInt(el.dataset.target);
+  let current = 0;
+  const step = Math.ceil(target / 60);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current;
+    if (current >= target) clearInterval(timer);
+  }, 25);
+}
+const counters = document.querySelectorAll('.count-up');
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ countUp(e.target); countObs.unobserve(e.target); } });
+}, { threshold:0.5 });
+counters.forEach(c => countObs.observe(c));
+
+// ── SKILL TABS ──
+document.querySelectorAll('.skill-tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.skill-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.skill-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('panel-' + tab);
+    panel.classList.add('active');
+    panel.querySelectorAll('.skill-tag').forEach((tag, i) => {
+      tag.style.animation = 'none';
+      tag.offsetHeight;
+      tag.style.animation = '';
+      tag.style.animationDelay = (i * 18) + 'ms';
+    });
+  });
+});
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/699d9fe0faf0a71c36d954af/';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
+</body>
+</html>
