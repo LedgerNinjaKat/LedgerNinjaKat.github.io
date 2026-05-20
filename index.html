@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ledger Ninja | Finance x Automation x Quant</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<script type="text/javascript" nonce="cbed6f169b404aa9bae5c9a64cd" src="//local.adguard.org?ts=1779238570724&amp;type=content-script&amp;dmn=prod-chat-kimi.tos-cn-beijing.volces.com&amp;url=https%3A%2F%2Fprod-chat-kimi.tos-cn-beijing.volces.com%2Fkimi-fs%2Fokc%2Fjrf7zxaafyoes%2Foutput%2Findex_fixed.html%3FX-Tos-Algorithm%3DTOS4-HMAC-SHA256%26X-Tos-Credential%3DAKLTYTJlNjgwMjY2ZDBkNDFiYmI5YWNiZDBlZmFmYjIzZTA%252F20260520%252Fcn-beijing%252Ftos%252Frequest%26X-Tos-Date%3D20260520T010800Z%26X-Tos-Expires%3D518400%26X-Tos-Signature%3Deacdc39a71cb3014c35a36f5144a68b9eafa4c17d251f70263bbf004b2202cd9%26X-Tos-SignedHeaders%3Dhost%26response-content-disposition%3Dattachment%253B%2Bfilename%252A%253DUTF-8%2527%2527index_fixed.html&amp;app=brave.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-ua=TW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzE0OC4wLjAuMCBTYWZhcmkvNTM3LjM2&amp;st-ch-brands=W3siYnJhbmQiOiJDaHJvbWl1bSIsInZlcnNpb24iOiIxNDgifSwgeyJicmFuZCI6Ikdvb2dsZSBDaHJvbWUiLCJ2ZXJzaW9uIjoiMTQ4In0sIHsiYnJhbmQiOiJOb3RcL0EpQnJhbmQiLCJ2ZXJzaW9uIjoiOTkifV0=&amp;st-ch-mobile=ZmFsc2U=&amp;st-ch-platform=V2luZG93cw==&amp;st-wrtc&amp;st-push&amp;st-loc&amp;st-ref=aHR0cHM6Ly9wcm9kLWNoYXQta2ltaS50b3MtY24tYmVpamluZy52b2xjZXMuY29tLw==&amp;st-dnt"></script><script type="text/javascript" nonce="cbed6f169b404aa9bae5c9a64cd" src="//local.adguard.org?ts=1779238570724&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script><link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -1860,8 +1860,7 @@ nav a:hover {
 }
 
 </style>
-<script data-goatcounter="https://ledgerninja.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+
 </head>
 <body>
 
@@ -3673,9 +3672,160 @@ document.querySelectorAll('.skill-tab-btn').forEach(btn => {
     });
   });
 });
+
+// ── CAROUSEL SYSTEM ──
+function initCarousel(wrapSelector) {
+  const wrap = document.querySelector(wrapSelector);
+  if(!wrap) return;
+  const track = wrap.querySelector('.carousel-track');
+  if(!track) return;
+  const container = track.parentElement;
+  const prevBtn = wrap.querySelector('.carousel-btn.prev');
+  const nextBtn = wrap.querySelector('.carousel-btn.next');
+  const dotsWrap = wrap.querySelector('.carousel-dots');
+  const cards = Array.from(track.children);
+  let currentIndex = 0;
+  let cardsPerView = 3;
+  let autoTimer = null;
+  const AUTO_DELAY = 4000;
+
+  function getCardsPerView() {
+    if(window.innerWidth <= 680) return 1;
+    if(window.innerWidth <= 1100) return 2;
+    return 3;
+  }
+
+  function maxIndex() {
+    return Math.max(0, cards.length - cardsPerView);
+  }
+
+  function totalPages() {
+    return Math.ceil(cards.length / cardsPerView);
+  }
+
+  function updateCardsPerView() {
+    cardsPerView = getCardsPerView();
+    goTo(currentIndex);
+    buildDots();
+  }
+
+  function buildDots() {
+    if(!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    const pages = totalPages();
+    for(let i=0; i<pages; i++){
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i===0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to page ' + (i+1));
+      dot.addEventListener('click', () => { goTo(i * cardsPerView); resetAuto(); });
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function goTo(index) {
+    const mi = maxIndex();
+    currentIndex = Math.max(0, Math.min(index, mi));
+    const cardWidth = cards[0].getBoundingClientRect().width;
+    const gap = 24;
+    const offset = currentIndex * (cardWidth + gap);
+    track.style.transform = 'translateX(-' + offset + 'px)';
+
+    const page = Math.min(Math.floor(currentIndex / cardsPerView), totalPages() - 1);
+    const dots = dotsWrap ? dotsWrap.children : [];
+    Array.from(dots).forEach((d, i) => {
+      d.classList.toggle('active', i === page);
+    });
+  }
+
+  function next() {
+    const mi = maxIndex();
+    if (currentIndex >= mi) {
+      goTo(0);
+    } else {
+      goTo(Math.min(currentIndex + cardsPerView, mi));
+    }
+  }
+
+  function prev() {
+    if (currentIndex <= 0) {
+      goTo(maxIndex());
+    } else {
+      goTo(Math.max(currentIndex - cardsPerView, 0));
+    }
+  }
+
+  function startAuto() {
+    stopAuto();
+    autoTimer = setInterval(next, AUTO_DELAY);
+  }
+
+  function stopAuto() {
+    if(autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  }
+
+  function resetAuto() {
+    stopAuto();
+    startAuto();
+  }
+
+  prevBtn && prevBtn.addEventListener('click', () => { prev(); resetAuto(); });
+  nextBtn && nextBtn.addEventListener('click', () => { next(); resetAuto(); });
+
+  document.addEventListener('keydown', e => {
+    if(!wrap.matches(':hover')) return;
+    if(e.key === 'ArrowLeft') { prev(); resetAuto(); }
+    if(e.key === 'ArrowRight') { next(); resetAuto(); }
+  });
+
+  // Touch / drag
+  let startX = 0, isDragging = false, startScroll = 0;
+  container.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.pageX;
+    startScroll = currentIndex;
+    container.style.cursor = 'grabbing';
+    stopAuto();
+  });
+  window.addEventListener('mousemove', e => {
+    if(!isDragging) return;
+    const diff = startX - e.pageX;
+    const cardWidth = cards[0].getBoundingClientRect().width + 24;
+    const offset = (startScroll * cardWidth) + diff;
+    track.style.transform = 'translateX(-' + offset + 'px)';
+  });
+  window.addEventListener('mouseup', e => {
+    if(!isDragging) return;
+    isDragging = false;
+    container.style.cursor = 'grab';
+    const diff = startX - e.pageX;
+    const cardWidth = cards[0].getBoundingClientRect().width + 24;
+    if(Math.abs(diff) > cardWidth * 0.25) {
+      const direction = Math.sign(diff);
+      if (direction > 0) { next(); } else { prev(); }
+    } else {
+      goTo(startScroll);
+    }
+    startAuto();
+  });
+
+  // Pause on hover, resume on leave
+  wrap.addEventListener('mouseenter', stopAuto);
+  wrap.addEventListener('mouseleave', startAuto);
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(updateCardsPerView, 200);
+  });
+
+  updateCardsPerView();
+  startAuto();
+}
+
+initCarousel('.projects-carousel-wrap');
+initCarousel('.portfolio-carousel-wrap');
+
 </script>
-
-
 
 </body>
 </html>
