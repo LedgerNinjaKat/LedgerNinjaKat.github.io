@@ -1860,6 +1860,8 @@ nav a:hover {
 }
 
 </style>
+<script data-goatcounter="https://ledgerninja.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 
@@ -1944,7 +1946,7 @@ nav a:hover {
   <div class="hero-visual">
     <div class="glass-card">
       <div class="scanner-line"></div>
-      <img class="hero-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDg2eWhwbjB3c3pkZnFodmR5eTRsMnpod2Q2Ym5vMjlmZTRsOW5teiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l0HlNaQ6gWfllcjDO/giphy.gif" alt="Finance Automation">
+      <img class="hero-gif" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXM3MndvaWQ3ODhzdzNxMm9oeGZqbW9vczhwaTMwdzUwNDlydTA0cSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wwg1suUiTbCY8H8vIA/giphy.gif" alt="Finance Automation">
       <div class="stat-grid">
         <div class="stat-box">
           <h3 class="count-up" data-target="500">0</h3><span style="color:var(--teal);font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800">+</span>
@@ -3673,175 +3675,7 @@ document.querySelectorAll('.skill-tab-btn').forEach(btn => {
 });
 </script>
 
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/699d9fe0faf0a71c36d954af/';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
 
-// ── CAROUSEL SYSTEM ──
-function initCarousel(wrapSelector) {
-  const wrap = document.querySelector(wrapSelector);
-  if(!wrap) return;
-  const track = wrap.querySelector('.carousel-track');
-  if(!track) return;
-  const container = track.parentElement;
-  const prevBtn = wrap.querySelector('.carousel-btn.prev');
-  const nextBtn = wrap.querySelector('.carousel-btn.next');
-  const dotsWrap = wrap.querySelector('.carousel-dots');
-  const cards = Array.from(track.children);
-  let currentIndex = 0;
-  let cardsPerView = 3;
-  let autoTimer = null;
-  const AUTO_DELAY = 4000;
-
-  function getCardsPerView() {
-    if(window.innerWidth <= 680) return 1;
-    if(window.innerWidth <= 1100) return 2;
-    return 3;
-  }
-
-  function maxIndex() {
-    return Math.max(0, cards.length - cardsPerView);
-  }
-
-  function totalPages() {
-    return Math.ceil(cards.length / cardsPerView);
-  }
-
-  function updateCardsPerView() {
-    cardsPerView = getCardsPerView();
-    goTo(currentIndex);
-    buildDots();
-  }
-
-  function buildDots() {
-    if(!dotsWrap) return;
-    dotsWrap.innerHTML = '';
-    const pages = totalPages();
-    for(let i=0; i<pages; i++){
-      const dot = document.createElement('button');
-      dot.className = 'carousel-dot' + (i===0 ? ' active' : '');
-      dot.setAttribute('aria-label', 'Go to page ' + (i+1));
-      dot.addEventListener('click', () => { goTo(i * cardsPerView); resetAuto(); });
-      dotsWrap.appendChild(dot);
-    }
-  }
-
-  function goTo(index) {
-    const mi = maxIndex();
-    currentIndex = Math.max(0, Math.min(index, mi));
-    const cardWidth = cards[0].getBoundingClientRect().width;
-    const gap = 24;
-    const offset = currentIndex * (cardWidth + gap);
-    track.style.transform = 'translateX(-' + offset + 'px)';
-
-    const page = Math.min(Math.floor(currentIndex / cardsPerView), totalPages() - 1);
-    const dots = dotsWrap ? dotsWrap.children : [];
-    Array.from(dots).forEach((d, i) => {
-      d.classList.toggle('active', i === page);
-    });
-  }
-
-  function next() {
-    const mi = maxIndex();
-    if (currentIndex >= mi) {
-      goTo(0);
-    } else {
-      goTo(Math.min(currentIndex + cardsPerView, mi));
-    }
-  }
-
-  function prev() {
-    if (currentIndex <= 0) {
-      goTo(maxIndex());
-    } else {
-      goTo(Math.max(currentIndex - cardsPerView, 0));
-    }
-  }
-
-  function startAuto() {
-    stopAuto();
-    autoTimer = setInterval(next, AUTO_DELAY);
-  }
-
-  function stopAuto() {
-    if(autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-  }
-
-  function resetAuto() {
-    stopAuto();
-    startAuto();
-  }
-
-  prevBtn && prevBtn.addEventListener('click', () => { prev(); resetAuto(); });
-  nextBtn && nextBtn.addEventListener('click', () => { next(); resetAuto(); });
-
-  document.addEventListener('keydown', e => {
-    if(!wrap.matches(':hover')) return;
-    if(e.key === 'ArrowLeft') { prev(); resetAuto(); }
-    if(e.key === 'ArrowRight') { next(); resetAuto(); }
-  });
-
-  // Touch / drag
-  let startX = 0, isDragging = false, startScroll = 0;
-  container.addEventListener('mousedown', e => {
-    isDragging = true;
-    startX = e.pageX;
-    startScroll = currentIndex;
-    container.style.cursor = 'grabbing';
-    stopAuto();
-  });
-  window.addEventListener('mousemove', e => {
-    if(!isDragging) return;
-    const diff = startX - e.pageX;
-    const cardWidth = cards[0].getBoundingClientRect().width + 24;
-    const offset = (startScroll * cardWidth) + diff;
-    track.style.transform = 'translateX(-' + offset + 'px)';
-  });
-  window.addEventListener('mouseup', e => {
-    if(!isDragging) return;
-    isDragging = false;
-    container.style.cursor = 'grab';
-    const diff = startX - e.pageX;
-    const cardWidth = cards[0].getBoundingClientRect().width + 24;
-    if(Math.abs(diff) > cardWidth * 0.25) {
-      const direction = Math.sign(diff);
-      if (direction > 0) { next(); } else { prev(); }
-    } else {
-      goTo(startScroll);
-    }
-    startAuto();
-  });
-
-  // Pause on hover, resume on leave
-  wrap.addEventListener('mouseenter', stopAuto);
-  wrap.addEventListener('mouseleave', startAuto);
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(updateCardsPerView, 200);
-  });
-
-  updateCardsPerView();
-  startAuto();
-}
-
-initCarousel('.projects-carousel-wrap');
-initCarousel('.portfolio-carousel-wrap');
-
-
-
-
-</script>
-<!--End of Tawk.to Script-->
 
 </body>
 </html>
