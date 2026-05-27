@@ -840,15 +840,17 @@ footer span { color:var(--teal); }
 
 /* ── PROJECTS CAROUSEL ── */
 .projects-carousel-wrap,
-.portfolio-carousel-wrap {
+.portfolio-carousel-wrap,
+.certs-carousel-wrap {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: 0 60px;
 }
 
 @media(max-width:760px){
   .projects-carousel-wrap,
-  .portfolio-carousel-wrap { padding: 0 40px; }
+  .portfolio-carousel-wrap,
+  .certs-carousel-wrap { padding: 0 40px; }
 }
 
 .carousel-track-container {
@@ -859,23 +861,29 @@ footer span { color:var(--teal); }
 .carousel-track {
   display: flex;
   gap: 24px;
+  padding: 20px 32px; /* Breathing room for edge card glows */
+  margin: -20px -32px; /* Compensate so visual alignment stays exact */
   transition: transform 0.55s cubic-bezier(0.23,1,0.32,1);
   will-change: transform;
 }
 
-.carousel-track .card {
+.carousel-track .card,
+.carousel-track .cert-category-card {
   flex: 0 0 calc(33.333% - 16px);
   min-width: 0;
   user-select: none;
 }
 
 @media(max-width:1100px){
-  .carousel-track .card { flex: 0 0 calc(50% - 12px); }
+  .carousel-track .card,
+  .carousel-track .cert-category-card { flex: 0 0 calc(50% - 12px); }
 }
 @media(max-width:680px){
-  .carousel-track .card { flex: 0 0 100%; }
+  .carousel-track .card,
+  .carousel-track .cert-category-card { flex: 0 0 100%; }
   .projects-carousel-wrap,
-  .portfolio-carousel-wrap { padding: 0 20px; }
+  .portfolio-carousel-wrap,
+  .certs-carousel-wrap { padding: 0 20px; }
 }
 
 /* Arrow buttons */
@@ -1360,18 +1368,18 @@ nav a:hover {
   border-radius: 22px;
   padding: 28px;
   backdrop-filter: blur(12px);
-  transition: transform 0.4s ease, border-color 0.4s, box-shadow 0.4s;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
 }
 .cert-category-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(0,255,213,0.15);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  border-color: rgba(0,255,213,0.35);
+  box-shadow: 0 0 40px rgba(0,255,213,0.12),
+              inset 0 1px 0 rgba(255,255,255,0.08);
 }
-.cert-category-card[data-accent="teal"]:hover { border-color: rgba(0,255,213,0.25); }
-.cert-category-card[data-accent="blue"]:hover { border-color: rgba(79,172,254,0.25); }
-.cert-category-card[data-accent="purple"]:hover { border-color: rgba(183,33,255,0.25); }
+.cert-category-card[data-accent="teal"]:hover { border-color: rgba(0,255,213,0.45); box-shadow: 0 0 40px rgba(0,255,213,0.15), inset 0 1px 0 rgba(255,255,255,0.08); }
+.cert-category-card[data-accent="blue"]:hover { border-color: rgba(79,172,254,0.45); box-shadow: 0 0 40px rgba(79,172,254,0.15), inset 0 1px 0 rgba(255,255,255,0.08); }
+.cert-category-card[data-accent="purple"]:hover { border-color: rgba(183,33,255,0.45); box-shadow: 0 0 40px rgba(183,33,255,0.15), inset 0 1px 0 rgba(255,255,255,0.08); }
 
 .cert-category-card::before {
   content: '';
@@ -2653,7 +2661,7 @@ nav a:hover {
     <button class="skill-tab-btn" data-tab="tech" role="tab">
       <i class="fa-solid fa-microchip tab-icon"></i>
       <span>Tech &amp; Systems</span>
-      <span class="skill-tab-badge">5 domains</span>
+      <span class="skill-tab-badge">6 domains</span>
     </button>
     <button class="skill-tab-btn" data-tab="ops" role="tab">
       <i class="fa-solid fa-gears tab-icon"></i>
@@ -2664,6 +2672,11 @@ nav a:hover {
       <i class="fa-solid fa-people-group tab-icon"></i>
       <span>Leadership &amp; Governance</span>
       <span class="skill-tab-badge">2 domains</span>
+    </button>
+    <button class="skill-tab-btn" data-tab="payroll" role="tab">
+      <i class="fa-solid fa-file-invoice-dollar tab-icon"></i>
+      <span>Global Payroll &amp; Tax</span>
+      <span class="skill-tab-badge">5 domains</span>
     </button>
   </div>
 
@@ -2958,6 +2971,133 @@ nav a:hover {
 
   </div>
 
+  <!-- ── PANEL 5: GLOBAL PAYROLL & TAX ── -->
+  <div class="skill-panel" id="panel-payroll">
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-location-dot skill-domain-icon"></i>
+        <div class="skill-domain-name">Australia</div>
+        <div class="skill-domain-count">10 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">PAYG / WHT</span>
+        <span class="skill-tag">BAS / FBT</span>
+        <span class="skill-tag">STP Phase 2</span>
+        <span class="skill-tag">Superannuation SG</span>
+        <span class="skill-tag">HECS / HELP</span>
+        <span class="skill-tag">Single Touch Payroll</span>
+        <span class="skill-tag">ATO Reconciliation</span>
+        <span class="skill-tag">Annual Leave Loading</span>
+        <span class="skill-tag">Parental Leave / PPL</span>
+        <span class="skill-tag">Medicare Levy</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="blue">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-flag-usa skill-domain-icon"></i>
+        <div class="skill-domain-name">United States</div>
+        <div class="skill-domain-count">12 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">W-4 / W-2 / 941</span>
+        <span class="skill-tag">FICA / FUTA / SUTA</span>
+        <span class="skill-tag">State / Local Withholding</span>
+        <span class="skill-tag">401(k) ADP / ACP Testing</span>
+        <span class="skill-tag">HSA / FSA Administration</span>
+        <span class="skill-tag">Garnishment Compliance</span>
+        <span class="skill-tag">DOL FLSA Overtime</span>
+        <span class="skill-tag">E-Verify</span>
+        <span class="skill-tag">CA SDI / PFL</span>
+        <span class="skill-tag">IRS Penalty Frameworks</span>
+        <span class="skill-tag">Box 12 Codes</span>
+        <span class="skill-tag">Credit Reduction States</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-leaf skill-domain-icon"></i>
+        <div class="skill-domain-name">Canada</div>
+        <div class="skill-domain-count">10 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">TD1 / T4 / RL-1</span>
+        <span class="skill-tag">CPP / QPP / EI</span>
+        <span class="skill-tag">CRA Remittance</span>
+        <span class="skill-tag">Provincial Tax Brackets</span>
+        <span class="skill-tag">Revenu Québec RL-1</span>
+        <span class="skill-tag">EHT / PST / QPIP</span>
+        <span class="skill-tag">Vacation Pay (4% / 6%)</span>
+        <span class="skill-tag">Termination Pay (ESA)</span>
+        <span class="skill-tag">Statutory Holiday Pay</span>
+        <span class="skill-tag">Parental EI Top-ups</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-crown skill-domain-icon"></i>
+        <div class="skill-domain-name">United Kingdom</div>
+        <div class="skill-domain-count">10 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">PAYE / RTI</span>
+        <span class="skill-tag">Tax Codes (1257L / BR / 0T)</span>
+        <span class="skill-tag">National Insurance</span>
+        <span class="skill-tag">FPS / EPS Submissions</span>
+        <span class="skill-tag">P60 / P45 / P11D</span>
+        <span class="skill-tag">Statutory Maternity Pay</span>
+        <span class="skill-tag">Auto-Enrolment Pensions</span>
+        <span class="skill-tag">Student Loans (Plan 1/2/4)</span>
+        <span class="skill-tag">Apprenticeship Levy</span>
+        <span class="skill-tag">HMRC Penalty Frameworks</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="blue">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-euro-sign skill-domain-icon"></i>
+        <div class="skill-domain-name">EU Adaptive Payroll</div>
+        <div class="skill-domain-count">12 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">IE PAYE / PRSI / ROS</span>
+        <span class="skill-tag">DK A-skat / AM-bidrag / ATP</span>
+        <span class="skill-tag">SE A-skatt / Arbetsgivaravgifter</span>
+        <span class="skill-tag">DE Lohnsteuer / Steuerklasse</span>
+        <span class="skill-tag">DE ELStAM / Social Security Split</span>
+        <span class="skill-tag">ES IRPF / Model 111 / 190</span>
+        <span class="skill-tag">ES Seguridad Social</span>
+        <span class="skill-tag">Mini-Job Rules (DE)</span>
+        <span class="skill-tag">E-income Reporting (DK)</span>
+        <span class="skill-tag">Arbetsgivardeklaration (SE)</span>
+        <span class="skill-tag">F-skatt Classification (SE)</span>
+        <span class="skill-tag">RLC Registration (ES)</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-globe skill-domain-icon"></i>
+        <div class="skill-domain-name">Cross-Border &amp; Compliance</div>
+        <div class="skill-domain-count">8 skills</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">A1 Certificates</span>
+        <span class="skill-tag">183-Day Residency Rule</span>
+        <span class="skill-tag">Totalization Agreements</span>
+        <span class="skill-tag">GDPR Payroll Protocols</span>
+        <span class="skill-tag">FX / Multi-Currency Modeling</span>
+        <span class="skill-tag">Cross-Border Commuter Tax</span>
+        <span class="skill-tag">Posted Worker Compliance</span>
+        <span class="skill-tag">Audit-Ready Documentation</span>
+      </div>
+    </div>
+
+  </div>
+
 </section>
 
 <div class="divider"></div>
@@ -3046,7 +3186,13 @@ nav a:hover {
   <h3 class="certs-section-title"><span>📜</span> Certifications of Completion</h3>
   <p class="section-sub" style="margin-bottom:36px;">Verified credentials from Harvard University, Microsoft-aligned programs, Anthropic, and leading ed-tech platforms.</p>
 
-  <div class="cert-category-grid">
+  <div class="certs-carousel-wrap">
+    <button class="carousel-btn prev" aria-label="Previous certifications">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <div class="carousel-track-container">
+      <div class="carousel-track">
 
     <!-- HARVARD -->
     <div class="cert-category-card" data-accent="blue">
@@ -3316,9 +3462,44 @@ nav a:hover {
       </div>
     </div>
 
-  </div>
+    <!-- FINANCE / PAYROLL / ACCOUNTING SOFTWARE -->
+    <div class="cert-category-card" data-accent="teal">
+      <div class="cert-cat-header">
+        <div class="cert-cat-icon"><i class="fa-solid fa-money-check-dollar"></i></div>
+        <div class="cert-cat-meta">
+          <h4>Finance, Payroll &amp; Accounting</h4>
+          <span>Udemy · Practical Credentials</span>
+        </div>
+      </div>
+      <div class="cert-list">
+        <div class="cert-item">
+          <div class="cert-dot"></div>
+          <div class="cert-info">
+            <strong>Global Payroll Masterclass – Taxes, Compliance &amp; Deductions</strong>
+            <span>Udemy Certified · US + UK + Canada + Australia</span>
+          </div>
+          <i class="fa-solid fa-badge-check cert-check"></i>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot"></div>
+          <div class="cert-info">
+            <strong>Xero Australia – Advanced BAS and GST Course</strong>
+            <span>Udemy Certified · ATO Compliance</span>
+          </div>
+          <i class="fa-solid fa-badge-check cert-check"></i>
+        </div>
+      </div>
+    </div>
 
-  <!-- TOTAL COUNTER -->
+      </div>
+    </div>
+
+    <button class="carousel-btn next" aria-label="Next certifications">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <div class="carousel-dots"></div>
+  </div><!-- TOTAL COUNTER -->
   <div class="cert-counter-bar">
     <div class="cert-counter-shimmer"></div>
     <div class="cert-counter-particle"></div>
@@ -3347,12 +3528,12 @@ nav a:hover {
     </div>
     <div class="cert-counter-divider"></div>
     <div class="cert-counter-item">
-      <span class="cert-counter-num count-up" data-target="27">0</span>
+      <span class="cert-counter-num count-up" data-target="29">0</span>
       <span class="cert-counter-label">Certifications<br>of Completion</span>
     </div>
     <div class="cert-counter-divider"></div>
     <div class="cert-counter-item">
-      <span class="cert-counter-num count-up" data-target="35">0</span>
+      <span class="cert-counter-num count-up" data-target="37">0</span>
       <span class="cert-counter-label">Total Verified<br>Credentials</span>
     </div>
   </div>
@@ -3415,48 +3596,6 @@ nav a:hover {
       <div class="progress-meta">
         <span><i class="fa-solid fa-code"></i> Python · ML · Backtesting</span>
         <span><i class="fa-solid fa-brain"></i> AI Signal Generation</span>
-      </div>
-    </div>
-
-    <!-- GLOBAL PAYROLL MASTERCLASS -->
-    <div class="progress-card" data-accent="teal">
-      <div class="progress-glow"></div>
-      <div class="progress-status-row">
-        <div class="progress-pulse-badge">
-          <span class="progress-dot"></span>
-          In Progress
-        </div>
-        <div class="progress-org">Udemy · Payroll &amp; Compliance Track</div>
-      </div>
-      <h3 class="progress-title">Global Payroll Masterclass – Taxes, Compliance &amp; Deductions</h3>
-      <p class="progress-desc">Mastering multi-country payroll operations — covering tax withholding, statutory compliance, benefit deductions, and cross-border payroll governance for global workforces. <span style="background: linear-gradient(90deg, var(--teal), var(--blue), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; display: inline;">Payroll Processing, Labor Insurance, Tax Forms, Global Deductions &amp; Reporting in US + UK + Canada + Australia</span></p>
-      <div class="progress-track">
-        <div class="progress-track-fill" style="--progress:35%"></div>
-      </div>
-      <div class="progress-meta">
-        <span><i class="fa-solid fa-globe"></i> Multi-Jurisdiction Payroll</span>
-        <span><i class="fa-solid fa-file-invoice-dollar"></i> Tax &amp; Compliance</span>
-      </div>
-    </div>
-
-    <!-- XERO AUSTRALIA BAS & GST COURSE -->
-    <div class="progress-card" data-accent="purple">
-      <div class="progress-glow"></div>
-      <div class="progress-status-row">
-        <div class="progress-pulse-badge">
-          <span class="progress-dot"></span>
-          In Progress
-        </div>
-        <div class="progress-org">Udemy · Xero Australia Track</div>
-      </div>
-      <h3 class="progress-title">Xero Australia – Advanced BAS and GST Course</h3>
-      <p class="progress-desc">Deepening expertise in Australian tax compliance through Xero — mastering Business Activity Statements, GST reporting, BAS preparation workflows, and ATO lodgement processes.</p>
-      <div class="progress-track">
-        <div class="progress-track-fill" style="--progress:25%"></div>
-      </div>
-      <div class="progress-meta">
-        <span><i class="fa-solid fa-calculator"></i> Xero Advanced</span>
-        <span><i class="fa-solid fa-building-columns"></i> ATO Compliance</span>
       </div>
     </div>
   </div>
@@ -3703,6 +3842,15 @@ function initCarousel(wrapSelector) {
   let autoTimer = null;
   const AUTO_DELAY = 4000;
 
+  // Hide nav when too few items to scroll
+  function updateNavVisibility(){
+    const hasOverflow = cards.length > cardsPerView;
+    prevBtn && (prevBtn.style.display = hasOverflow ? 'flex' : 'none');
+    nextBtn && (nextBtn.style.display = hasOverflow ? 'flex' : 'none');
+    dotsWrap && (dotsWrap.style.display = hasOverflow ? 'flex' : 'none');
+    if(!hasOverflow) stopAuto();
+  }
+
   function getCardsPerView() {
     if(window.innerWidth <= 680) return 1;
     if(window.innerWidth <= 1100) return 2;
@@ -3721,6 +3869,7 @@ function initCarousel(wrapSelector) {
     cardsPerView = getCardsPerView();
     goTo(currentIndex);
     buildDots();
+    updateNavVisibility();
   }
 
   function buildDots() {
@@ -3728,10 +3877,12 @@ function initCarousel(wrapSelector) {
     dotsWrap.innerHTML = '';
     const pages = totalPages();
     for(let i=0; i<pages; i++){
+      const pageIndex = i;
       const dot = document.createElement('button');
-      dot.className = 'carousel-dot' + (i===0 ? ' active' : '');
-      dot.setAttribute('aria-label', 'Go to page ' + (i+1));
-      dot.addEventListener('click', () => { goTo(i * cardsPerView); resetAuto(); });
+      dot.classList.add('carousel-dot');
+      if(pageIndex === 0) dot.classList.add('active');
+      dot.setAttribute('aria-label', 'Go to page ' + (pageIndex+1));
+      dot.addEventListener('click', () => { goTo(pageIndex * cardsPerView); resetAuto(); });
       dotsWrap.appendChild(dot);
     }
   }
@@ -3744,7 +3895,7 @@ function initCarousel(wrapSelector) {
     const offset = currentIndex * (cardWidth + gap);
     track.style.transform = 'translateX(-' + offset + 'px)';
 
-    const page = Math.min(Math.floor(currentIndex / cardsPerView), totalPages() - 1);
+    const page = currentIndex >= maxIndex() ? totalPages() - 1 : Math.floor(currentIndex / cardsPerView);
     const dots = dotsWrap ? dotsWrap.children : [];
     Array.from(dots).forEach((d, i) => {
       d.classList.toggle('active', i === page);
@@ -3770,7 +3921,12 @@ function initCarousel(wrapSelector) {
 
   function startAuto() {
     stopAuto();
-    autoTimer = setInterval(next, AUTO_DELAY);
+    autoTimer = setInterval(() => {
+      // Only advance if user is NOT hovering over this carousel
+      if(!wrap.matches(':hover')) {
+        next();
+      }
+    }, AUTO_DELAY);
   }
 
   function stopAuto() {
@@ -3822,9 +3978,11 @@ function initCarousel(wrapSelector) {
     startAuto();
   });
 
-  // Pause on hover, resume on leave
+  // Pause on hover, resume on leave (belt-and-suspenders)
   wrap.addEventListener('mouseenter', stopAuto);
-  wrap.addEventListener('mouseleave', startAuto);
+  wrap.addEventListener('mouseleave', () => {
+    if(!isDragging) startAuto();
+  });
 
   let resizeTimer;
   window.addEventListener('resize', () => {
@@ -3833,15 +3991,19 @@ function initCarousel(wrapSelector) {
   });
 
   updateCardsPerView();
-  startAuto();
+  updateNavVisibility();
+  // Only start auto if user is not already hovering
+  if(!wrap.matches(':hover')) startAuto();
 }
 
 initCarousel('.projects-carousel-wrap');
 initCarousel('.portfolio-carousel-wrap');
+initCarousel('.certs-carousel-wrap');
 
 </script>
 
-<<script data-goatcounter="https://ledgerninja.goatcounter.com/count"
+<script data-goatcounter="https://ledgerninja.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+
 </body>
 </html>
