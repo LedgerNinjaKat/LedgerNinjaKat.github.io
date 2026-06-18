@@ -291,6 +291,44 @@ body {
   50%       { box-shadow: 0 0 25px 2px rgba(0,255,213,0.12); }
 }
 
+/* ── Demo Grid ── */
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.demo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.version-badge.v1 {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.version-badge.v2 {
+  background: rgba(0, 255, 213, 0.06);
+  border: 1px solid rgba(0, 255, 213, 0.2);
+  color: var(--teal);
+}
+
 /* ── CTA Section ── */
 .cta-section {
   text-align:center; padding:60px 0 40px;
@@ -340,6 +378,7 @@ body {
 @media (max-width:900px) {
   .content-block { padding:32px 24px; }
   .feature-grid { grid-template-columns:1fr; }
+  .demo-grid { grid-template-columns: 1fr; }
 }
 @media (max-width:600px) {
   .container { padding:0 4%; }
@@ -356,8 +395,7 @@ body {
   }
 }
 </style>
-<script data-goatcounter="https://ledgerninja.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+
 </head>
 <body>
 
@@ -386,18 +424,18 @@ body {
     </h1>
     <div class="hero-emoji" id="heroEmoji">
       <span>📊</span>
-<span>✨</span>
-<span>💻</span>
+      <span>✨</span>
+      <span>💻</span>
     </div>
     <p class="hero-sub" id="heroSub">
       Track Performance in Real Time with My Interactive Dashboard
     </p>
     <div class="tech-stack" id="techStack">
       <div class="tech" style="--i:1">Real-Time Filtering</div>
-<div class="tech" style="--i:2">KPI Tracking</div>
-<div class="tech" style="--i:3">Dashboard Architecture</div>
-<div class="tech" style="--i:4">Data Visualization</div>
-<div class="tech" style="--i:5">Interactive UI</div>
+      <div class="tech" style="--i:2">KPI Tracking</div>
+      <div class="tech" style="--i:3">Dashboard Architecture</div>
+      <div class="tech" style="--i:4">Data Visualization</div>
+      <div class="tech" style="--i:5">Interactive UI</div>
     </div>
   </div>
 
@@ -407,7 +445,7 @@ body {
     <div class="content-block" id="overviewBlock">
       <h2>Overview</h2>
       <p>
-        I’m excited to share a performance dashboard I built that updates automatically as you use the filters. Monitoring KPIs and key metrics has never been this easy or interactive.
+        I'm excited to share a performance dashboard I built that updates automatically as you use the filters. Monitoring KPIs and key metrics has never been this easy or interactive.
       </p>
       <p style="margin-top:14px;">
         Many think building dashboards requires advanced experience, but the truth is that understanding the fundamentals matters more than years of experience.
@@ -454,7 +492,7 @@ body {
     <div class="content-block" id="customBlock">
       <h2>Customization Is Simple</h2>
       <p>
-        Every company, team, or dataset may have its own KPIs or metrics. These differences are easy to handle once you understand the dashboard’s structure and logic.
+        Every company, team, or dataset may have its own KPIs or metrics. These differences are easy to handle once you understand the dashboard's structure and logic.
       </p>
     </div>
   </div>
@@ -498,7 +536,7 @@ body {
   <div class="highlight-box" id="highlightBox">
     <h3>🎯 Key Takeaway</h3>
     <p>
-      Interactive dashboards aren’t complicated. Focus on core skills, design intuitive visuals, and you can track performance across any dataset, with guidance only when needed.
+      Interactive dashboards aren't complicated. Focus on core skills, design intuitive visuals, and you can track performance across any dataset, with guidance only when needed.
     </p>
   </div>
 
@@ -509,11 +547,29 @@ body {
     <div class="content-block" id="demoBlock">
       <h2>📹 Demo</h2>
       <p>
-        Watch the demo below to see the interactive dashboard in action.
+        Watch the demos below to see the evolution from Version 1 to Version 2.
       </p>
 
-      <div class="embed-wrap">
-        <blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:muxqmiwb5g6g6ojoggmf7nam/app.bsky.feed.post/3mfomkxnwss2p" data-bluesky-cid="bafyreifwa4hdvlul7mdlbrceyzz6jghbemrq5dbvhtcnyfrw2fd6ophsei" data-bluesky-embed-color-mode="system"><p lang="en">Track performance in real time 📊💻! My interactive dashboard updates live with filters, highlights trends, and makes KPIs easy to monitor. Core skills are all you need to create dashboards for any dataset. Watch the demo 📹<br><br><a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam/post/3mfomkxnwss2p?ref_src=embed">[image or embed]</a></p>&mdash; Ledger Ninja (<a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam?ref_src=embed">@ledgerninja.bsky.social</a>) <a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam/post/3mfomkxnwss2p?ref_src=embed">February 25, 2026 at 7:51 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+      <div class="demo-grid">
+        <!-- Version 1 -->
+        <div class="demo-col">
+          <div class="version-badge v1">
+            <i class="fa-solid fa-tag"></i> Version 1 — Original
+          </div>
+          <div class="embed-wrap">
+            <blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:muxqmiwb5g6g6ojoggmf7nam/app.bsky.feed.post/3mfomkxnwss2p" data-bluesky-cid="bafyreifwa4hdvlul7mdlbrceyzz6jghbemrq5dbvhtcnyfrw2fd6ophsei" data-bluesky-embed-color-mode="system"><p lang="en">Track performance in real time 📊💻! My interactive dashboard updates live with filters, highlights trends, and makes KPIs easy to monitor. Core skills are all you need to create dashboards for any dataset. Watch the demo 📹<br><br><a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam/post/3mfomkxnwss2p?ref_src=embed">[image or embed]</a></p>&mdash; Ledger Ninja (<a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam?ref_src=embed">@ledgerninja.bsky.social</a>) <a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam/post/3mfomkxnwss2p?ref_src=embed">February 25, 2026 at 7:51 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+          </div>
+        </div>
+
+        <!-- Version 2 -->
+        <div class="demo-col">
+          <div class="version-badge v2">
+            <i class="fa-solid fa-rocket"></i> Version 2 — Enhanced
+          </div>
+          <div class="embed-wrap">
+            <blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:muxqmiwb5g6g6ojoggmf7nam/app.bsky.feed.post/3moh3quslxs2r" data-bluesky-cid="bafyreicc3u4gzoj7oo53i4toe5mmic4llja277lvkhpabkafmgf7t34f5a" data-bluesky-embed-color-mode="system"><p lang="en">Just dropped v2 of my performance dashboard! 📊💻 Track metrics in real-time with live updates, dynamic filters, and clear KPI trends. You only need core skills to build this for any dataset. Watch the demo! 📹👇 #DataViz #Dashboard<br><br><a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam/post/3moh3quslxs2r?ref_src=embed">[image or embed]</a></p>&mdash; Ledger Ninja (<a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam?ref_src=embed">@ledgerninja.bsky.social</a>) <a href="https://bsky.app/profile/did:plc:muxqmiwb5g6g6ojoggmf7nam/post/3moh3quslxs2r?ref_src=embed">June 17, 2026 at 8:49 AM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -521,7 +577,7 @@ body {
 
   <div class="cta-section" id="ctaSection">
     <h2>Ready to <span class="gradient">Track Performance Live</span>?</h2>
-    <p>Watch the demo above and explore the portfolio for more projects.</p>
+    <p>Watch the demos above and explore the portfolio for more projects.</p>
     <div class="cta-buttons">
       <a href="../index.html" class="btn btn-secondary"><i class="fa-solid fa-house"></i> Back to Portfolio</a>
     </div>
