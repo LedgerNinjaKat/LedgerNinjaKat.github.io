@@ -1904,6 +1904,7 @@ nav a:hover {
     <li><a href="#skills">Skills</a></li>
     <li><a href="#certificates">Credentials</a></li>
     <li><a href="#progress">In Progress</a></li>
+    <li><a href="./projects/code_v5.html" style="color:var(--purple); text-shadow: 0 0 8px rgba(183,33,255,0.5);"><i class="fa-solid fa-terminal" style="font-size:0.7rem; margin-right:4px;"></i>Quant Systems</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -1937,6 +1938,10 @@ nav a:hover {
       <a href="#projects" class="btn btn-primary">
         <i class="fa-solid fa-chart-line"></i>
         View Projects
+      </a>
+      <a href="./projects/code_v5.html" class="btn btn-secondary" style="border-color:rgba(183,33,255,0.4); color:var(--purple);">
+        <i class="fa-solid fa-robot"></i>
+        Quant & Coding
       </a>
       <a href="#contact" class="btn btn-secondary">
         <i class="fa-solid fa-paper-plane"></i>
@@ -2310,6 +2315,31 @@ nav a:hover {
 
     <div class="carousel-track-container">
       <div class="carousel-track">
+        <!-- PROJECT 0: Quantitative Systems Portfolio -->
+        <div class="card" style="--accent:var(--purple); border: 1px solid rgba(183,33,255,0.25);">
+          <div class="card-icon" style="background:rgba(183,33,255,0.12); border-color:rgba(183,33,255,0.3);">
+            <i class="fa-solid fa-terminal" style="background:linear-gradient(90deg,var(--purple),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;"></i>
+          </div>
+          <h3>Quantitative Systems Portfolio <span style="font-weight:400;">🤖📈⚡</span></h3>
+          <p>
+            My dedicated quantitative finance &amp; coding portfolio — featuring algorithmic trading research,
+            statistical arbitrage engines, backtesting systems, and live market analysis tools built with Python.
+          </p>
+          <div class="tech-stack">
+            <span class="tech-stack-item">Python</span>
+            <span class="tech-stack-item">Algorithmic Trading</span>
+            <span class="tech-stack-item">Statistical Arbitrage</span>
+            <span class="tech-stack-item">Backtesting</span>
+            <span class="tech-stack-item">Quantitative Research</span>
+          </div>
+          <div style="margin-top:24px;">
+            <a href="./projects/code_v5.html" class="btn btn-primary" style="background:linear-gradient(90deg,var(--purple),var(--blue));">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              Enter Quant Portal
+            </a>
+          </div>
+        </div>
+
 
         <!-- PROJECT 1: Performance Dashboard -->
         <div class="card" style="--accent:var(--teal);">
@@ -3186,375 +3216,136 @@ nav a:hover {
   <h3 class="certs-section-title"><span>📜</span> Certifications of Completion</h3>
   <p class="section-sub" style="margin-bottom:36px;">Verified credentials from Harvard University, Microsoft-aligned programs, Anthropic, and leading ed-tech platforms.</p>
 
-  <div class="certs-carousel-wrap">
-    <button class="carousel-btn prev" aria-label="Previous certifications">
-      <i class="fa-solid fa-chevron-left"></i>
+    <!-- TAB NAVIGATION -->
+  <div class="skill-tabs-nav" role="tablist" style="margin-top:36px;">
+    <button class="skill-tab-btn active" data-tab="cert-tech" role="tab">
+      <i class="fa-solid fa-graduation-cap tab-icon"></i>
+      <span>Technology &amp; Data Science</span>
+      <span class="skill-tab-badge">14 certs</span>
     </button>
-
-    <div class="carousel-track-container">
-      <div class="carousel-track">
-
-    <!-- HARVARD -->
-    <div class="cert-category-card" data-accent="blue">
-      <div class="cert-cat-header">
-        <div class="cert-cat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-        <div class="cert-cat-meta">
-          <h4>Harvard University</h4>
-          <span>CS50 Professional Certificates</span>
-        </div>
-      </div>
-      <div class="cert-list">
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>CS50's Introduction to Programming with Python</strong>
-            <span>Certified with Badge · HarvardX</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>CS50's Introduction to Databases with SQL</strong>
-            <span>Certified with Badge · HarvardX</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- MICROSOFT / SIMPLILEARN -->
-    <div class="cert-category-card" data-accent="teal">
-      <div class="cert-cat-header">
-        <div class="cert-cat-icon"><i class="fa-brands fa-microsoft"></i></div>
-        <div class="cert-cat-meta">
-          <h4>Microsoft Certified Programs</h4>
-          <span>via Simplilearn</span>
-        </div>
-      </div>
-      <div class="cert-list">
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Power BI for Beginners</strong>
-            <span>Microsoft Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Power BI Data Modelling Basics</strong>
-            <span>Microsoft Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Business Analytics with Excel</strong>
-            <span>Microsoft Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Data Analyst 101</strong>
-            <span>Microsoft Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- ANTHROPIC / CLaude AI -->
-    <div class="cert-category-card" data-accent="purple">
-      <div class="cert-cat-header">
-        <div class="cert-cat-icon"><i class="fa-solid fa-brain"></i></div>
-        <div class="cert-cat-meta">
-          <h4>Anthropic · Claude AI</h4>
-          <span>AI Fluency &amp; Agentic Systems</span>
-        </div>
-      </div>
-      <div class="cert-list">
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Claude 101</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Claude Code 101</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Claude Code in Action</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Introduction to Model Context Protocol</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Model Context Protocol: Advanced Topics</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>AI Fluency: Framework &amp; Foundations</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>AI Capabilities and Limitations</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>AI Fluency for Nonprofits</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Introduction to Agent Skills (Agentic)</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Introduction to Subagents (Agentic)</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>AI Fluency for Small Businesses</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Claude with Amazon Bedrock</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Claude with Google Cloud's Vertex AI</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Introduction to Claude Cowork</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Claude with the Anthropic API (Building with the Claude API)</strong>
-            <span>Claude AI Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- DATA SCIENCE / UDEMY / SIMPLILEARN EXTRA -->
-    <div class="cert-category-card" data-accent="blue">
-      <div class="cert-cat-header">
-        <div class="cert-cat-icon"><i class="fa-solid fa-database"></i></div>
-        <div class="cert-cat-meta">
-          <h4>Data Science &amp; Engineering</h4>
-          <span>Udemy · Simplilearn</span>
-        </div>
-      </div>
-      <div class="cert-list">
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Python Data Analysis: NumPy &amp; Pandas Masterclass</strong>
-            <span>Udemy Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Introduction to Data Science</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Become a Data Scientist: Statistics for Data Science</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Basics of Data Structures and Algorithms</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>GitHub Basics</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>GIT Training</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Become a Quant: Algorithmic Trading with Python and AI</strong>
-            <span>Udemy Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>AI Trading Bot with Python: Machine Learning &amp; Backtest 2026</strong>
-            <span>Udemy Certified</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-      </div>
-    </div>
-
-    <!-- FINANCE / PAYROLL / ACCOUNTING SOFTWARE -->
-    <div class="cert-category-card" data-accent="teal">
-      <div class="cert-cat-header">
-        <div class="cert-cat-icon"><i class="fa-solid fa-money-check-dollar"></i></div>
-        <div class="cert-cat-meta">
-          <h4>Finance, Payroll &amp; Accounting</h4>
-          <span>Udemy · Practical Credentials</span>
-        </div>
-      </div>
-      <div class="cert-list">
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Global Payroll Masterclass – Taxes, Compliance &amp; Deductions</strong>
-            <span>Udemy Certified · US + UK + Canada + Australia</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Xero Australia – Advanced BAS and GST Course</strong>
-            <span>Udemy Certified · ATO Compliance</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Asset Management Course</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Introduction to Financial Management</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Change Management Foundations</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Fundamentals of Business Process Management</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-        <div class="cert-item">
-          <div class="cert-dot"></div>
-          <div class="cert-info">
-            <strong>Fundamentals of Corporate Finance</strong>
-            <span>Simplilearn</span>
-          </div>
-          <i class="fa-solid fa-badge-check cert-check"></i>
-        </div>
-      </div>
-    </div>
-
-      </div>
-    </div>
-
-    <button class="carousel-btn next" aria-label="Next certifications">
-      <i class="fa-solid fa-chevron-right"></i>
+    <button class="skill-tab-btn" data-tab="cert-ai" role="tab">
+      <i class="fa-solid fa-brain tab-icon"></i>
+      <span>Artificial Intelligence</span>
+      <span class="skill-tab-badge">15 certs</span>
     </button>
+    <button class="skill-tab-btn" data-tab="cert-finance" role="tab">
+      <i class="fa-solid fa-money-check-dollar tab-icon"></i>
+      <span>Finance &amp; Operations</span>
+      <span class="skill-tab-badge">9 certs</span>
+    </button>
+  </div>
 
-    <div class="carousel-dots"></div>
+  <!-- PANEL 1: TECHNOLOGY & DATA SCIENCE -->
+  <div class="skill-panel active" id="panel-cert-tech">
+
+    <div class="skill-domain" data-accent="blue">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-graduation-cap skill-domain-icon"></i>
+        <div class="skill-domain-name">Harvard University</div>
+        <div class="skill-domain-count">2 certs</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">CS50's Introduction to Programming with Python — HarvardX</span>
+        <span class="skill-tag">CS50's Introduction to Databases with SQL — HarvardX</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-brands fa-microsoft skill-domain-icon"></i>
+        <div class="skill-domain-name">Microsoft Certified Programs</div>
+        <div class="skill-domain-count">4 certs</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Power BI for Beginners — Microsoft</span>
+        <span class="skill-tag">Power BI Data Modelling Basics — Microsoft</span>
+        <span class="skill-tag">Business Analytics with Excel — Microsoft</span>
+        <span class="skill-tag">Data Analyst 101 — Microsoft</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-database skill-domain-icon"></i>
+        <div class="skill-domain-name">Data Science &amp; Engineering</div>
+        <div class="skill-domain-count">8 certs</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Python Data Analysis: NumPy &amp; Pandas Masterclass — Udemy</span>
+        <span class="skill-tag">Introduction to Data Science — Simplilearn</span>
+        <span class="skill-tag">Become a Data Scientist: Statistics for Data Science — Simplilearn</span>
+        <span class="skill-tag">Basics of Data Structures and Algorithms — Simplilearn</span>
+        <span class="skill-tag">GitHub Basics — Simplilearn</span>
+        <span class="skill-tag">GIT Training — Simplilearn</span>
+        <span class="skill-tag">Become a Quant: Algorithmic Trading with Python and AI — Udemy</span>
+        <span class="skill-tag">AI Trading Bot with Python: Machine Learning &amp; Backtest 2026 — Udemy</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANEL 2: ARTIFICIAL INTELLIGENCE -->
+  <div class="skill-panel" id="panel-cert-ai">
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-brain skill-domain-icon"></i>
+        <div class="skill-domain-name">Anthropic · Claude AI</div>
+        <div class="skill-domain-count">15 certs</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Claude 101 — Claude AI Certified</span>
+        <span class="skill-tag">Claude Code 101 — Claude AI Certified</span>
+        <span class="skill-tag">Claude Code in Action — Claude AI Certified</span>
+        <span class="skill-tag">Introduction to Model Context Protocol — Claude AI Certified</span>
+        <span class="skill-tag">Model Context Protocol: Advanced Topics — Claude AI Certified</span>
+        <span class="skill-tag">AI Fluency: Framework &amp; Foundations — Claude AI Certified</span>
+        <span class="skill-tag">AI Capabilities and Limitations — Claude AI Certified</span>
+        <span class="skill-tag">AI Fluency for Nonprofits — Claude AI Certified</span>
+        <span class="skill-tag">Introduction to Agent Skills (Agentic) — Claude AI Certified</span>
+        <span class="skill-tag">Introduction to Subagents (Agentic) — Claude AI Certified</span>
+        <span class="skill-tag">AI Fluency for Small Businesses — Claude AI Certified</span>
+        <span class="skill-tag">Claude with Amazon Bedrock — Claude AI Certified</span>
+        <span class="skill-tag">Claude with Google Cloud's Vertex AI — Claude AI Certified</span>
+        <span class="skill-tag">Introduction to Claude Cowork — Claude AI Certified</span>
+        <span class="skill-tag">Claude with the Anthropic API — Claude AI Certified</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANEL 3: FINANCE & OPERATIONS -->
+  <div class="skill-panel" id="panel-cert-finance">
+
+    <div class="skill-domain" data-accent="teal">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-money-check-dollar skill-domain-icon"></i>
+        <div class="skill-domain-name">Finance, Payroll &amp; Accounting</div>
+        <div class="skill-domain-count">7 certs</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Global Payroll Masterclass – Taxes, Compliance &amp; Deductions — Udemy</span>
+        <span class="skill-tag">Xero Australia – Advanced BAS and GST Course — Udemy</span>
+        <span class="skill-tag">Asset Management Course — Simplilearn</span>
+        <span class="skill-tag">Introduction to Financial Management — Simplilearn</span>
+        <span class="skill-tag">Change Management Foundations — Simplilearn</span>
+        <span class="skill-tag">Fundamentals of Business Process Management — Simplilearn</span>
+        <span class="skill-tag">Fundamentals of Corporate Finance — Simplilearn</span>
+      </div>
+    </div>
+
+    <div class="skill-domain" data-accent="purple">
+      <div class="skill-domain-label">
+        <i class="fa-solid fa-ribbon skill-domain-icon"></i>
+        <div class="skill-domain-name">Six Sigma &amp; Quality</div>
+        <div class="skill-domain-count">2 certs</div>
+      </div>
+      <div class="skill-tag-area">
+        <span class="skill-tag">Lean Six Sigma White Belt — Go Lean Six Sigma (GLSS)</span>
+        <span class="skill-tag">Six Sigma Yellow Belt — 6sigmastudy</span>
+      </div>
+    </div>
+
   </div><!-- TOTAL COUNTER -->
   <div class="cert-counter-bar">
     <div class="cert-counter-shimmer"></div>
@@ -3584,12 +3375,12 @@ nav a:hover {
     </div>
     <div class="cert-counter-divider"></div>
     <div class="cert-counter-item">
-      <span class="cert-counter-num count-up" data-target="36">0</span>
+      <span class="cert-counter-num count-up" data-target="38">0</span>
       <span class="cert-counter-label">Certifications<br>of Completion</span>
     </div>
     <div class="cert-counter-divider"></div>
     <div class="cert-counter-item">
-      <span class="cert-counter-num count-up" data-target="44">0</span>
+      <span class="cert-counter-num count-up" data-target="46">0</span>
       <span class="cert-counter-label">Total Verified<br>Credentials</span>
     </div>
   </div>
@@ -3861,17 +3652,21 @@ if(loaderBarWrap){
 document.querySelectorAll('.skill-tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const tab = btn.dataset.tab;
-    document.querySelectorAll('.skill-tab-btn').forEach(b => b.classList.remove('active'));
+    // Only deactivate buttons in the same tab group
+    const parent = btn.closest('.skill-tabs-nav');
+    parent.querySelectorAll('.skill-tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.skill-panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     const panel = document.getElementById('panel-' + tab);
-    panel.classList.add('active');
-    panel.querySelectorAll('.skill-tag').forEach((tag, i) => {
-      tag.style.animation = 'none';
-      tag.offsetHeight;
-      tag.style.animation = '';
-      tag.style.animationDelay = (i * 18) + 'ms';
-    });
+    if(panel) {
+      panel.classList.add('active');
+      panel.querySelectorAll('.skill-tag').forEach((tag, i) => {
+        tag.style.animation = 'none';
+        tag.offsetHeight;
+        tag.style.animation = '';
+        tag.style.animationDelay = (i * 18) + 'ms';
+      });
+    }
   });
 });
 
@@ -4047,7 +3842,6 @@ function initCarousel(wrapSelector) {
 
 initCarousel('.projects-carousel-wrap');
 initCarousel('.portfolio-carousel-wrap');
-initCarousel('.certs-carousel-wrap');
 
 </script>
 
